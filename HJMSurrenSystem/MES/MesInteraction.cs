@@ -1,8 +1,10 @@
 ﻿using DataModel;
+using HJMSurrenSystem.MES.MiCheckBOMInventoryProxy;
 using HJMSurrenSystem.Parameters;
 using MachineIntegrationServiceService;
 using MiFindCustomAndSfcDataServiceService;
 using System;
+using System.Linq;
 using System.Net;
 
 namespace HJMSurrenSystem.MES
@@ -130,17 +132,204 @@ namespace HJMSurrenSystem.MES
             return MiFindCustomAndSfcDataServiceService.ObjectAliasEnum.ITEM;
         }
 
-        public ModeProcessSfc PullOutGetEnum(string tempStr)
+        public dataCollectForSfcModeProcessSfc PullOutGetEnum(string tempStr)
         {
             if (tempStr == "MODE_NONE")
-                return ModeProcessSfc.MODE_NONE;
+                return dataCollectForSfcModeProcessSfc.MODE_NONE;
             else if (tempStr == "MODE_START_SFC_PRE_DC")
-                return ModeProcessSfc.MODE_START_SFC_PRE_DC;
+                return dataCollectForSfcModeProcessSfc.MODE_START_SFC_PRE_DC;
             else if (tempStr == "MODE_COMPLETE_SFC_POST_DC")
-                return ModeProcessSfc.MODE_COMPLETE_SFC_POST_DC;
+                return dataCollectForSfcModeProcessSfc.MODE_COMPLETE_SFC_POST_DC;
             else if (tempStr == "MODE_PASS_SFC_POST_DC")
-                return ModeProcessSfc.MODE_PASS_SFC_POST_DC;
-            return ModeProcessSfc.MODE_NONE;
+                return dataCollectForSfcModeProcessSfc.MODE_PASS_SFC_POST_DC;
+            return dataCollectForSfcModeProcessSfc.MODE_NONE;
+        }
+
+        private string ReadPullInParameter(string parameterName, string fallbackName = null, string defaultValue = "")
+        {
+            MesPullInParameters parameter = ResourceHandler.listMesPullInParameters.FirstOrDefault(item =>
+                string.Equals(item.ParametersName, parameterName, StringComparison.OrdinalIgnoreCase));
+            string value = parameter.ParametersPrice;
+
+            if (!string.IsNullOrWhiteSpace(value))
+            {
+                return value.Trim();
+            }
+
+            if (!string.IsNullOrEmpty(fallbackName))
+            {
+                MesPullInParameters fallback = ResourceHandler.listMesPullInParameters.FirstOrDefault(item =>
+                    string.Equals(item.ParametersName, fallbackName, StringComparison.OrdinalIgnoreCase));
+                value = fallback.ParametersPrice;
+            }
+
+            return string.IsNullOrWhiteSpace(value) ? defaultValue : value.Trim();
+        }
+
+        private bool IsBomInventoryCheckEnabled()
+        {
+            string enabled = ReadPullInParameter("bomInventoryEnabled", null, "true");
+            return enabled.Equals("true", StringComparison.OrdinalIgnoreCase) ||
+                   enabled.Equals("1", StringComparison.OrdinalIgnoreCase) ||
+                   enabled.Equals("yes", StringComparison.OrdinalIgnoreCase) ||
+                   enabled.Equals("是", StringComparison.OrdinalIgnoreCase);
+        }
+
+        private void FillMesErrorDetails(ResponseData responseData, int code)
+        {
+            CSV_Style message = ResourceHandler.dparamParameters.Read_MESCodeCSV.Find_Code(code.ToString());
+            if (message == null)
+            {
+                responseData.Message = "不存在于当前的报错文档中！请提供文档进行更新";
+                return;
+            }
+
+            responseData.code = Convert.ToInt16(message.Code);
+            responseData.Message = message.Message;
+            responseData.way = message.way;
+            responseData.personinCharge = message.PersoninCharge;
+        }
+
+        public ResponseData CheckStickerPnAndInventory(string moduleCode, bool forceCheck = false)
+        {
+            ResponseData result = new ResponseData
+            {
+                code = -1,
+                sfc = moduleCode,
+                startTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss:fff")
+            };
+
+            if (!forceCheck && !IsBomInventoryCheckEnabled())
+            {
+                result.code = 0;
+                result.message = "贴纸PN及库存校验已停用";
+                main.outDiary("【MES】贴纸PN及库存校验已停用", "信息");
+                return result;
+            }
+
+            string logPath = ResourceHandler.listSystemParameters[0].MESLogPath + "\\MiCheckBOMInventoryServiceService";
+            MiCheckBOMInventoryServiceService service = new MiCheckBOMInventoryServiceService();
+
+            try
+            {
+                string url = ReadPullInParameter("bomInventoryUrl");
+                string timeoutText = ReadPullInParameter("bomInventoryTimeout", null, "10000");
+                string site = ReadPullInParameter("bomInventorySite", "site");
+                string user = ReadPullInParameter("bomInventoryUser", "user");
+                string operation = ReadPullInParameter("bomInventoryOperation", "operation");
+                string resource = ReadPullInParameter("bomInventoryResource", "resource");
+                string modeCheckOperation = ReadPullInParameter("bomInventoryModeCheckOperation");
+
+                int timeout;
+                if (!int.TryParse(timeoutText, out timeout) || timeout <= 0)
+                {
+                    throw new InvalidOperationException("bomInventoryTimeout必须是大于0的整数");
+                }
+
+                if (string.IsNullOrWhiteSpace(url) || string.IsNullOrWhiteSpace(site) ||
+                    string.IsNullOrWhiteSpace(user) || string.IsNullOrWhiteSpace(operation) ||
+                    string.IsNullOrWhiteSpace(resource))
+                {
+                    throw new InvalidOperationException("贴纸PN及库存校验的url、site、user、operation、resource不能为空");
+                }
+
+                service.Url = url;
+                service.Timeout = timeout;
+                service.PreAuthenticate = true;
+                service.Credentials = new NetworkCredential(
+                    ReadPullInParameter("bomInventoryUserName", "userName"),
+                    ReadPullInParameter("bomInventoryPassword", "password"));
+
+                CheckBOMInventoryRequest requestData = new CheckBOMInventoryRequest
+                {
+                    site = site,
+                    operation = operation,
+                    operationRevision = ReadPullInParameter("bomInventoryOperationRevision", "operationRevision", "#"),
+                    resource = resource,
+                    parameterArray = new[]
+                    {
+                        new CheckBOMInventoryParameter
+                        {
+                            usage = ReadPullInParameter("bomInventoryUsage1", null, "RESOURCE"),
+                            category = ReadPullInParameter("bomInventoryCategory1", null, "RESOURCE"),
+                            dataField = ReadPullInParameter("bomInventoryDataField1", null, "Z_FMA_RES")
+                        },
+                        new CheckBOMInventoryParameter
+                        {
+                            usage = ReadPullInParameter("bomInventoryUsage2", null, "BOM"),
+                            category = ReadPullInParameter("bomInventoryCategory2", null, "RESOURCE"),
+                            dataField = ReadPullInParameter("bomInventoryDataField2", null, "Z_FMA_BOM")
+                        }
+                    },
+                    user = user,
+                    activity = ReadPullInParameter("bomInventoryActivity", "activity", "EAP_WS"),
+                    sfc = moduleCode,
+                    modeCheckOperation = string.IsNullOrWhiteSpace(modeCheckOperation) ? null : modeCheckOperation,
+                    modeProcessSFC = ReadPullInParameter("bomInventoryModeProcessSfc", null, "MODE_COMPLETE_SFC_POST_DC")
+                };
+
+                miCheckBOMInventory request = new miCheckBOMInventory
+                {
+                    CheckBOMInventoryRequest = requestData
+                };
+
+                DataGridViewClass.Write_MESLOG_CSV(new[] { "网址：," + service.Url }, logPath, "贴纸PN及库存校验");
+                DataGridViewClass.Write_MESLOG_CSV(new[] { "耗时：," + service.Timeout }, logPath, "贴纸PN及库存校验");
+                DataGridViewClass.Write_MESLOG_CSV(new[] { "site：," + requestData.site }, logPath, "贴纸PN及库存校验");
+                DataGridViewClass.Write_MESLOG_CSV(new[] { "user：," + requestData.user }, logPath, "贴纸PN及库存校验");
+                DataGridViewClass.Write_MESLOG_CSV(new[] { "operation：," + requestData.operation }, logPath, "贴纸PN及库存校验");
+                DataGridViewClass.Write_MESLOG_CSV(new[] { "operationRevision：," + requestData.operationRevision }, logPath, "贴纸PN及库存校验");
+                DataGridViewClass.Write_MESLOG_CSV(new[] { "activity：," + requestData.activity }, logPath, "贴纸PN及库存校验");
+                DataGridViewClass.Write_MESLOG_CSV(new[] { "resource：," + requestData.resource }, logPath, "贴纸PN及库存校验");
+                DataGridViewClass.Write_MESLOG_CSV(new[] { "modeCheckOperation：," + requestData.modeCheckOperation }, logPath, "贴纸PN及库存校验");
+                DataGridViewClass.Write_MESLOG_CSV(new[] { "modeProcessSfc：," + requestData.modeProcessSFC }, logPath, "贴纸PN及库存校验");
+                DataGridViewClass.Write_MESLOG_CSV(new[] { "sfc：," + requestData.sfc }, logPath, "贴纸PN及库存校验");
+                foreach (CheckBOMInventoryParameter parameter in requestData.parameterArray)
+                {
+                    DataGridViewClass.Write_MESLOG_CSV(
+                        new[] { "parameterArray：,{" + parameter.usage + ":" + parameter.category + ":" + parameter.dataField + "}" },
+                        logPath,
+                        "贴纸PN及库存校验");
+                }
+
+                miCheckBOMInventoryResponse response = service.miCheckBOMInventory(request);
+                if (response == null || response.@return == null || !response.@return.codeSpecified)
+                {
+                    throw new InvalidOperationException("贴纸PN及库存校验接口未返回有效code");
+                }
+
+                result.code = response.@return.code;
+                result.message = response.@return.message ?? "";
+                DataGridViewClass.Write_MESLOG_CSV(
+                    new[] { "从MES收集的数据:,{Code:" + result.code + " Message:" + result.message + "}" },
+                    logPath,
+                    "贴纸PN及库存校验");
+
+                if (result.code != 0)
+                {
+                    FillMesErrorDetails(result, response.@return.code);
+                    main.outDiary(
+                        "【MES】贴纸PN及库存校验失败\r\n【MES】Code：" + result.code +
+                        "\r\n【MES】message:" + result.message,
+                        "警告");
+                    return result;
+                }
+
+                main.outDiary("【MES】贴纸PN及库存校验成功", "信息");
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.code = 9999;
+                result.message = ex.Message;
+                result.Message = "贴纸PN及库存校验接口调用异常";
+                DataGridViewClass.Write_MESLOG_CSV(
+                    new[] { "接口异常：," + ex.Message },
+                    logPath,
+                    "贴纸PN及库存校验");
+                main.outDiary("【MES】贴纸PN及库存校验异常：" + ex.Message, "错误");
+                return result;
+            }
         }
 
         public ResponseData PullIn(string 模组码)
@@ -276,14 +465,13 @@ namespace HJMSurrenSystem.MES
             #endregion
         }
 
-        public ResponseData PullOut(string 模组码, dataCollectForSfcEx dataCollectForSfcEx)
+        public ResponseData PullOut(string 模组码, dataCollectForSfcEx collectedData)
         {
             var serviceOutDll = new MachineIntegrationServiceService.MachineIntegrationServiceService();
-
             NetworkCredential dential = new NetworkCredential();
-
-            MachineIntegrationServiceService.nonConfirmCodeArray[] codeArray =
-               new MachineIntegrationServiceService.nonConfirmCodeArray[1];
+            dataCollectForModuleTest moduleTestRequest = new dataCollectForModuleTest();
+            moduleTestRequest.DcForModuleTestRequest = new dcForModuleTestRequest();
+            string moduleTestLogPath = ResourceHandler.listSystemParameters[0].MESLogPath + "\\dataCollectForModuleTest";
 
             try
             {
@@ -296,53 +484,55 @@ namespace HJMSurrenSystem.MES
                 serviceOutDll.Url = DataGridViewClass.MesFindDataGridViewRead(ResourceHandler.dparamParameters.mesPullOutUI.dataGridView1, "url");
                 serviceOutDll.Timeout = int.Parse(DataGridViewClass.MesFindDataGridViewRead(ResourceHandler.dparamParameters.mesPullOutUI.dataGridView1, "timeout"));    //服务器连接超时设置，毫秒 
 
-                DataGridViewClass.Write_MESLOG_CSV(new string[] { "网址：," + serviceOutDll.Url }, ResourceHandler.listSystemParameters[0].MESLogPath + "\\MiFindCustomAndSfcDataServiceService", "出站");
-                DataGridViewClass.Write_MESLOG_CSV(new string[] { "耗时：," + serviceOutDll.Timeout }, ResourceHandler.listSystemParameters[0].MESLogPath + "\\MiFindCustomAndSfcDataServiceService", "出站");
-                DataGridViewClass.Write_MESLOG_CSV(new string[] { "当前时间：," + DateTime.Now.ToString("yyyy年MM月dd日 HH:mm:ss") }, ResourceHandler.listSystemParameters[0].MESLogPath + "\\MiFindCustomAndSfcDataServiceService", "出站");
+                DataGridViewClass.Write_MESLOG_CSV(new string[] { "网址：," + serviceOutDll.Url }, moduleTestLogPath, "出站收数");
+                DataGridViewClass.Write_MESLOG_CSV(new string[] { "耗时：," + serviceOutDll.Timeout }, moduleTestLogPath, "出站收数");
+                DataGridViewClass.Write_MESLOG_CSV(new string[] { "当前时间：," + DateTime.Now.ToString("yyyy年MM月dd日 HH:mm:ss") }, moduleTestLogPath, "出站收数");
 
-                dataCollectForSfcEx.SfcDcExRequest.ncCodeArray = codeArray;
-                dataCollectForSfcEx.SfcDcExRequest.site = DataGridViewClass.MesFindDataGridViewRead(ResourceHandler.dparamParameters.mesPullOutUI.dataGridView1, "site");
-                DataGridViewClass.Write_MESLOG_CSV(new string[] { "site：," + dataCollectForSfcEx.SfcDcExRequest.site }, ResourceHandler.listSystemParameters[0].MESLogPath + "\\MiFindCustomAndSfcDataServiceService", "出站");
+                if (collectedData == null || collectedData.SfcDcExRequest == null || collectedData.SfcDcExRequest.parametricDataArray == null)
+                {
+                    throw new InvalidOperationException("MES收数参数数组未初始化");
+                }
 
-                dataCollectForSfcEx.SfcDcExRequest.user = DataGridViewClass.MesFindDataGridViewRead(ResourceHandler.dparamParameters.mesPullOutUI.dataGridView1, "user");
-                DataGridViewClass.Write_MESLOG_CSV(new string[] { "user：," + dataCollectForSfcEx.SfcDcExRequest.user }, ResourceHandler.listSystemParameters[0].MESLogPath + "\\MiFindCustomAndSfcDataServiceService", "出站");
+                dcForModuleTestRequest requestData = moduleTestRequest.DcForModuleTestRequest;
+                requestData.site = DataGridViewClass.MesFindDataGridViewRead(ResourceHandler.dparamParameters.mesPullOutUI.dataGridView1, "site");
+                requestData.user = DataGridViewClass.MesFindDataGridViewRead(ResourceHandler.dparamParameters.mesPullOutUI.dataGridView1, "user");
+                requestData.operation = DataGridViewClass.MesFindDataGridViewRead(ResourceHandler.dparamParameters.mesPullOutUI.dataGridView1, "operation");
+                requestData.operationRevision = DataGridViewClass.MesFindDataGridViewRead(ResourceHandler.dparamParameters.mesPullOutUI.dataGridView1, "operationRevision");
+                requestData.activityId = DataGridViewClass.MesFindDataGridViewRead(ResourceHandler.dparamParameters.mesPullOutUI.dataGridView1, "activityId");
+                requestData.resource = DataGridViewClass.MesFindDataGridViewRead(ResourceHandler.dparamParameters.mesPullOutUI.dataGridView1, "resource");
+                requestData.dcGroup = DataGridViewClass.MesFindDataGridViewRead(ResourceHandler.dparamParameters.mesPullOutUI.dataGridView1, "dcGroup");
+                requestData.dcGroupRevision = DataGridViewClass.MesFindDataGridViewRead(ResourceHandler.dparamParameters.mesPullOutUI.dataGridView1, "dcGroupRevision");
+                requestData.modeProcessSfc = PullOutGetEnum(DataGridViewClass.MesFindDataGridViewRead(ResourceHandler.dparamParameters.mesPullOutUI.dataGridView1, "modeProcessSfc"));
+                requestData.sfc = 模组码;
+                requestData.parametricDataArray = collectedData.SfcDcExRequest.parametricDataArray;
 
-                dataCollectForSfcEx.SfcDcExRequest.operation = DataGridViewClass.MesFindDataGridViewRead(ResourceHandler.dparamParameters.mesPullOutUI.dataGridView1, "operation");
-                DataGridViewClass.Write_MESLOG_CSV(new string[] { "operation：," + dataCollectForSfcEx.SfcDcExRequest.operation }, ResourceHandler.listSystemParameters[0].MESLogPath + "\\MiFindCustomAndSfcDataServiceService", "出站");
-
-                dataCollectForSfcEx.SfcDcExRequest.operationRevision = DataGridViewClass.MesFindDataGridViewRead(ResourceHandler.dparamParameters.mesPullOutUI.dataGridView1, "operationRevision");
-                DataGridViewClass.Write_MESLOG_CSV(new string[] { "operationRevision：," + dataCollectForSfcEx.SfcDcExRequest.operationRevision }, ResourceHandler.listSystemParameters[0].MESLogPath + "\\MiFindCustomAndSfcDataServiceService", "出站");
-
-                dataCollectForSfcEx.SfcDcExRequest.dcGroup = DataGridViewClass.MesFindDataGridViewRead(ResourceHandler.dparamParameters.mesPullOutUI.dataGridView1, "dcGroup");
-                DataGridViewClass.Write_MESLOG_CSV(new string[] { "dcGroup：," + dataCollectForSfcEx.SfcDcExRequest.dcGroup }, ResourceHandler.listSystemParameters[0].MESLogPath + "\\MiFindCustomAndSfcDataServiceService", "出站");
-
-                dataCollectForSfcEx.SfcDcExRequest.resource = DataGridViewClass.MesFindDataGridViewRead(ResourceHandler.dparamParameters.mesPullOutUI.dataGridView1, "resource");
-                DataGridViewClass.Write_MESLOG_CSV(new string[] { "resource：," + dataCollectForSfcEx.SfcDcExRequest.resource }, ResourceHandler.listSystemParameters[0].MESLogPath + "\\MiFindCustomAndSfcDataServiceService", "出站");
-
-                dataCollectForSfcEx.SfcDcExRequest.sfc = 模组码;//出站条码 
-                DataGridViewClass.Write_MESLOG_CSV(new string[] { "sfc：," + 模组码 }, ResourceHandler.listSystemParameters[0].MESLogPath + "\\MiFindCustomAndSfcDataServiceService", "出站");
-
-                dataCollectForSfcEx.SfcDcExRequest.dcGroupRevision = DataGridViewClass.MesFindDataGridViewRead(ResourceHandler.dparamParameters.mesPullOutUI.dataGridView1, "dcGroupRevision");
-                DataGridViewClass.Write_MESLOG_CSV(new string[] { "dcGroupRevision：," + dataCollectForSfcEx.SfcDcExRequest.dcGroupRevision }, ResourceHandler.listSystemParameters[0].MESLogPath + "\\MiFindCustomAndSfcDataServiceService", "出站");
-
-                dataCollectForSfcEx.SfcDcExRequest.activityId = DataGridViewClass.MesFindDataGridViewRead(ResourceHandler.dparamParameters.mesPullOutUI.dataGridView1, "activityId");
-                DataGridViewClass.Write_MESLOG_CSV(new string[] { "activityId：," + dataCollectForSfcEx.SfcDcExRequest.activityId }, ResourceHandler.listSystemParameters[0].MESLogPath + "\\MiFindCustomAndSfcDataServiceService", "出站");
-
-                dataCollectForSfcEx.SfcDcExRequest.modeProcessSfc = (ModeProcessSfc)PullOutGetEnum(DataGridViewClass.MesFindDataGridViewRead(ResourceHandler.dparamParameters.mesPullOutUI.dataGridView1, "modeProcessSfc"));
-                DataGridViewClass.Write_MESLOG_CSV(new string[] { "modeProcessSfc：," + dataCollectForSfcEx.SfcDcExRequest.modeProcessSfc }, ResourceHandler.listSystemParameters[0].MESLogPath + "\\MiFindCustomAndSfcDataServiceService", "出站");
+                DataGridViewClass.Write_MESLOG_CSV(new string[] { "site：," + requestData.site }, moduleTestLogPath, "出站收数");
+                DataGridViewClass.Write_MESLOG_CSV(new string[] { "user：," + requestData.user }, moduleTestLogPath, "出站收数");
+                DataGridViewClass.Write_MESLOG_CSV(new string[] { "operation：," + requestData.operation }, moduleTestLogPath, "出站收数");
+                DataGridViewClass.Write_MESLOG_CSV(new string[] { "operationRevision：," + requestData.operationRevision }, moduleTestLogPath, "出站收数");
+                DataGridViewClass.Write_MESLOG_CSV(new string[] { "activityId：," + requestData.activityId }, moduleTestLogPath, "出站收数");
+                DataGridViewClass.Write_MESLOG_CSV(new string[] { "resource：," + requestData.resource }, moduleTestLogPath, "出站收数");
+                DataGridViewClass.Write_MESLOG_CSV(new string[] { "dcGroup：," + requestData.dcGroup }, moduleTestLogPath, "出站收数");
+                DataGridViewClass.Write_MESLOG_CSV(new string[] { "dcGroupRevision：," + requestData.dcGroupRevision }, moduleTestLogPath, "出站收数");
+                DataGridViewClass.Write_MESLOG_CSV(new string[] { "modeProcessSfc：," + requestData.modeProcessSfc }, moduleTestLogPath, "出站收数");
+                DataGridViewClass.Write_MESLOG_CSV(new string[] { "sfc：," + requestData.sfc }, moduleTestLogPath, "出站收数");
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                main.outDiary("MES配置参数异常!", "错误");
-                return null;
+                main.outDiary("MES收数请求参数异常：" + ex.Message, "错误");
+                return new ResponseData
+                {
+                    code = 9999,
+                    message = ex.Message,
+                    sfc = 模组码
+                };
             }
             main.outDiary("出站模组码：" + 模组码, "信息");
                 
             string parametr = "";
 
-            DataGridViewClass.Write_MESLOG_CSV(new string[] { "parametr：," + parametr }, ResourceHandler.listSystemParameters[0].MESLogPath + "\\MiFindCustomAndSfcDataServiceService", "出站");
-            foreach (var item in dataCollectForSfcEx.SfcDcExRequest.parametricDataArray)
+            foreach (var item in moduleTestRequest.DcForModuleTestRequest.parametricDataArray)
             {
                 if (item == null)
                 {
@@ -351,26 +541,30 @@ namespace HJMSurrenSystem.MES
                 parametr += "{" + $"{item.name}:{item.dataType}:{item.value} " + "}";
             }
 
-            DataGridViewClass.Write_MESLOG_CSV(new string[] { "parametr：," + parametr }, ResourceHandler.listSystemParameters[0].MESLogPath + "\\MiFindCustomAndSfcDataServiceService", "出站");
+            DataGridViewClass.Write_MESLOG_CSV(new string[] { "parameterArray：," + parametr }, moduleTestLogPath, "出站收数");
 
-            dataCollectForSfcExResponse responseIn;
+            dataCollectForModuleTestResponse responseIn;
             ResponseData reData = new ResponseData();
             reData.code = -1;
             reData.sfc = 模组码;
             try
             {
-                responseIn = serviceOutDll.dataCollectForSfcEx(dataCollectForSfcEx);//此处为调试所以禁用出站方法，使用延时模拟出站
+                responseIn = serviceOutDll.dataCollectForModuleTest(moduleTestRequest);
+                if (responseIn == null || responseIn.@return == null)
+                {
+                    throw new InvalidOperationException("MES收数接口未返回有效响应");
+                }
 
                 DataGridViewClass.Write_MESLOG_CSV(new string[] { "从MES收集的数据:,{" +
                                                                        "Code:" + responseIn.@return.code +
                                                                        "Message:" + responseIn.@return.message +
                                                                        "}"
-                                                                }, ResourceHandler.listSystemParameters[0].MESLogPath + "\\MiFindCustomAndSfcDataServiceService", "出站");
-                DataGridViewClass.Write_MESLOG_CSV(new string[] { " " }, ResourceHandler.listSystemParameters[0].MESLogPath + "\\MiFindCustomAndSfcDataServiceService", "出站");
-                DataGridViewClass.Write_MESLOG_CSV(new string[] { " " }, ResourceHandler.listSystemParameters[0].MESLogPath + "\\MiFindCustomAndSfcDataServiceService", "出站");
+                                                                }, moduleTestLogPath, "出站收数");
+                DataGridViewClass.Write_MESLOG_CSV(new string[] { " " }, moduleTestLogPath, "出站收数");
+                DataGridViewClass.Write_MESLOG_CSV(new string[] { " " }, moduleTestLogPath, "出站收数");
                 reData.code = responseIn.@return.code;
                 reData.message = responseIn.@return.message;
-                if (responseIn.@return.code != 0 || responseIn.@return.message != "")
+                if (responseIn.@return.code != 0)
                 {
                     main.outDiary("【MES】MES出站审核失败\r\n【MES】Code：" + responseIn.@return.code + "\r\n【MES】message:" + responseIn.@return.message.ToString() + "\r\n\r\n", "警告");
 
@@ -412,9 +606,9 @@ namespace HJMSurrenSystem.MES
                                                                        "Code:" + reData.code +
                                                                        "Message:" + reData.message +
                                                                        "}"
-                                                                }, ResourceHandler.listSystemParameters[0].MESLogPath + "\\MiFindCustomAndSfcDataServiceService", "出站");
-                DataGridViewClass.Write_MESLOG_CSV(new string[] { " " }, ResourceHandler.listSystemParameters[0].MESLogPath + "\\MiFindCustomAndSfcDataServiceService", "出站");
-                DataGridViewClass.Write_MESLOG_CSV(new string[] { " " }, ResourceHandler.listSystemParameters[0].MESLogPath + "\\MiFindCustomAndSfcDataServiceService", "出站");
+                                                                }, moduleTestLogPath, "出站收数");
+                DataGridViewClass.Write_MESLOG_CSV(new string[] { " " }, moduleTestLogPath, "出站收数");
+                DataGridViewClass.Write_MESLOG_CSV(new string[] { " " }, moduleTestLogPath, "出站收数");
 
                 return reData;
             }

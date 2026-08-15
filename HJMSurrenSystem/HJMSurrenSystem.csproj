@@ -198,6 +198,7 @@
       <DependentUpon>PLCInteractionUI.cs</DependentUpon>
     </Compile>
     <Compile Include="MES\MesInteraction.cs" />
+    <Compile Include="MES\MiCheckBOMInventoryServiceProxy.cs" />
     <Compile Include="MES\Read_MESCodeCSV.cs" />
     <Compile Include="MES\TypeInfo.cs" />
     <Compile Include="Parameters\DparamParameters.cs" />

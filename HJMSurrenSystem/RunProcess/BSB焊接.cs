@@ -134,6 +134,14 @@ namespace HJMSurrenSystem.RunProcess
 
             main.outDiary($"进站{index}进入在线模式", "信息");
             ResponseData responseData = ResourceHandler.dparamParameters.MesInteraction.PullIn(moduleCode);
+            if (responseData.code == 0)
+            {
+                ResponseData bomInventoryResult = ResourceHandler.dparamParameters.MesInteraction.CheckStickerPnAndInventory(moduleCode);
+                if (bomInventoryResult.code != 0)
+                {
+                    responseData = bomInventoryResult;
+                }
+            }
             if (responseData.code != 0)
             {
                 main.Invoke(new MethodInvoker(delegate
