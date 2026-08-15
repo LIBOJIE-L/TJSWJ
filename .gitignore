@@ -1,0 +1,43 @@
+# Visual Studio user and workspace files
+.vs/
+**/.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Build outputs
+**/bin/
+**/obj/
+*.dll
+*.exe
+*.pdb
+*.cache
+*.lock
+
+# NuGet packages are restored from packages.config
+packages/
+*.nupkg
+
+# Runtime logs, backups and archives
+**/Exception/
+**/Log/
+**/Logs/
+**/BackUp/
+*.log
+*.tmp
+*.bak
+*.7z
+*.rar
+*.zip
+*.lnk
+~$*
+
+# Local equipment documents and exported office files
+*.docx
+*.xlsx
+*.xls
+
+# Local machine and production data
+设备信息.txt
+busbar焊接MES数据收集.xlsx
