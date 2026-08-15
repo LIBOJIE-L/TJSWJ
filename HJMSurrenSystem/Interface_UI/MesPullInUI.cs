@@ -19,10 +19,51 @@ namespace HJMSurrenSystem.Interface_UI
     public partial class MesPullInUI : Form
     {
         Main main;
-        public MesPullInUI(Main main)
+        private readonly bool bomInventoryOnly;
+
+        public MesPullInUI(Main main) : this(main, false)
+        {
+        }
+
+        public MesPullInUI(Main main, bool bomInventoryOnly)
         {
             InitializeComponent();
             this.main = main;
+            this.bomInventoryOnly = bomInventoryOnly;
+
+            if (bomInventoryOnly)
+            {
+                Text = "贴纸PN及库存校验配置";
+                can.ReadOnly = true;
+                Column1.ReadOnly = true;
+                button1.Visible = false;
+                button2.Visible = false;
+                button3.Visible = false;
+                button5.Visible = false;
+                main.EnsureBomInventoryParameters();
+                FillParameterGrid();
+            }
+        }
+
+        private static bool IsBomInventoryParameter(string parameterName)
+        {
+            return !string.IsNullOrWhiteSpace(parameterName) &&
+                   parameterName.StartsWith("bomInventory", StringComparison.OrdinalIgnoreCase);
+        }
+
+        private void FillParameterGrid()
+        {
+            DataGridViewClass.RemoveAllRow(dataGridView1);
+            foreach (MesPullInParameters item in ResourceHandler.listMesPullInParameters)
+            {
+                if (bomInventoryOnly && !IsBomInventoryParameter(item.ParametersName))
+                {
+                    continue;
+                }
+
+                string[] typeStr = { item.ParametersName, item.ParametersExplain, item.ParametersPrice };
+                DataGridViewClass.AddRows(dataGridView1, typeStr, Color.White);
+            }
         }
 
         public void language()
@@ -144,36 +185,46 @@ namespace HJMSurrenSystem.Interface_UI
             {
                 MessageBox.Show("MES进站参数配置文件读取失败!\nPLCInteractiveAddressFileReadError!\nPLCInteractiveAddress beim Lesen der Sprachdatei!");
             }
-
-            foreach (var item in ResourceHandler.listMesPullInParameters)
-            {
-                string[] type_Str = { item.ParametersName, item.ParametersExplain, item.ParametersPrice };
-                DataGridViewClass.AddRows(dataGridView1, type_Str, Color.White);
-            }
+            main.EnsureBomInventoryParameters();
+            FillParameterGrid();
+            main.RefreshMesPullInParameterGrid();
         }
 
         private void button6_Click(object sender, EventArgs e)
         {
-            ResourceHandler.listMesPullInParameters.Clear();
+            dataGridView1.EndEdit();
+            List<MesPullInParameters> editedParameters = new List<MesPullInParameters>();
 
             for (int i = 0; i < dataGridView1.RowCount; i++)
             {
-                if (dataGridView1.Rows[i].Cells[0].Value == null ||dataGridView1.Rows[i].Cells[0].Value.ToString().Equals(""))
-                    ResourceHandler.mesPullInParameters.ParametersName = "";
-                else
-                    ResourceHandler.mesPullInParameters.ParametersName = dataGridView1.Rows[i].Cells[0].Value.ToString();
+                editedParameters.Add(new MesPullInParameters
+                {
+                    ParametersName = Convert.ToString(dataGridView1.Rows[i].Cells[0].Value),
+                    ParametersExplain = Convert.ToString(dataGridView1.Rows[i].Cells[1].Value),
+                    ParametersPrice = Convert.ToString(dataGridView1.Rows[i].Cells[2].Value)
+                });
+            }
 
-                if (dataGridView1.Rows[i].Cells[1].Value == null || dataGridView1.Rows[i].Cells[1].Value.ToString().Equals(""))
-                    ResourceHandler.mesPullInParameters.ParametersExplain = "";
-                else
-                    ResourceHandler.mesPullInParameters.ParametersExplain = dataGridView1.Rows[i].Cells[1].Value.ToString();
-
-                if (dataGridView1.Rows[i].Cells[2].Value == null || dataGridView1.Rows[i].Cells[2].Value.ToString().Equals(""))
-                    ResourceHandler.mesPullInParameters.ParametersPrice = "";
-                else
-                    ResourceHandler.mesPullInParameters.ParametersPrice = dataGridView1.Rows[i].Cells[2].Value.ToString();
-
-                ResourceHandler.listMesPullInParameters.Add(ResourceHandler.mesPullInParameters);
+            if (bomInventoryOnly)
+            {
+                foreach (MesPullInParameters parameter in editedParameters)
+                {
+                    int index = ResourceHandler.listMesPullInParameters.FindIndex(item =>
+                        string.Equals(item.ParametersName, parameter.ParametersName, StringComparison.OrdinalIgnoreCase));
+                    if (index >= 0)
+                    {
+                        ResourceHandler.listMesPullInParameters[index] = parameter;
+                    }
+                    else if (IsBomInventoryParameter(parameter.ParametersName))
+                    {
+                        ResourceHandler.listMesPullInParameters.Add(parameter);
+                    }
+                }
+            }
+            else
+            {
+                ResourceHandler.listMesPullInParameters.Clear();
+                ResourceHandler.listMesPullInParameters.AddRange(editedParameters);
             }
 
             XmlHelper xmlHelper = new XmlHelper("xml/" + main.workstationName.Text + "/MesPullIn.xml");
@@ -181,7 +232,11 @@ namespace HJMSurrenSystem.Interface_UI
             if (!headerBool)
             {
                 MessageBox.Show("MES进站参数配置文件保存失败!\nPLCInteractiveAddressFileReadError!\nPLCInteractiveAddress beim Lesen der Sprachdatei!");
+                return;
             }
+
+            main.RefreshMesPullInParameterGrid();
+            MessageBox.Show("配置保存成功！");
         }
 
         private void dataGridView1_CellParsing(object sender, DataGridViewCellParsingEventArgs e)

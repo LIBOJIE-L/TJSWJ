@@ -68,6 +68,7 @@ namespace HJMSurrenSystem
             MesPullOutParameter();
             MesInitialWorkpieceParameter();
             MesPullOutUploadingParameter();
+            EnsureManualUploadInterfaceTypes();
 
             operation_ban();
             Ini_Data();
@@ -446,11 +447,72 @@ namespace HJMSurrenSystem
             {
                 MessageBox.Show("MES进站参数读取失败!\nPlcAddressFileReadError!\nPlc adresse beim Lesen der Sprachdatei!");
             }
+            EnsureBomInventoryParameters();
             ResourceHandler.dparamParameters.mesPullInUI = new MesPullInUI(this);
             foreach (var item in ResourceHandler.listMesPullInParameters)
             {
                 string[] mesPullInUI_Ary = { item.ParametersName, item.ParametersExplain, item.ParametersPrice };
                 DataGridViewClass.AddRows(ResourceHandler.dparamParameters.mesPullInUI.dataGridView1, mesPullInUI_Ary, Color.White);
+            }
+        }
+
+        public void EnsureBomInventoryParameters()
+        {
+            MesPullInParameters[] defaults =
+            {
+                new MesPullInParameters { ParametersName = "bomInventoryEnabled", ParametersExplain = "启用贴纸PN及库存校验(true/false)", ParametersPrice = "true" },
+                new MesPullInParameters { ParametersName = "bomInventoryUrl", ParametersExplain = "贴纸PN及库存校验服务地址", ParametersPrice = "http://172.26.11.3:50200/atlmeswebservice/MiCheckBOMInventoryServiceService" },
+                new MesPullInParameters { ParametersName = "bomInventoryTimeout", ParametersExplain = "贴纸PN及库存校验超时(ms)", ParametersPrice = "10000" },
+                new MesPullInParameters { ParametersName = "bomInventoryUserName", ParametersExplain = "贴纸PN及库存校验HTTP用户名(为空则使用进站用户名)", ParametersPrice = "" },
+                new MesPullInParameters { ParametersName = "bomInventoryPassword", ParametersExplain = "贴纸PN及库存校验HTTP密码(为空则使用进站密码)", ParametersPrice = "" },
+                new MesPullInParameters { ParametersName = "bomInventorySite", ParametersExplain = "贴纸PN及库存校验站点(为空则使用进站site)", ParametersPrice = "" },
+                new MesPullInParameters { ParametersName = "bomInventoryUser", ParametersExplain = "贴纸PN及库存校验操作用户(为空则使用进站user)", ParametersPrice = "" },
+                new MesPullInParameters { ParametersName = "bomInventoryOperation", ParametersExplain = "贴纸PN及库存校验工位(为空则使用进站operation)", ParametersPrice = "" },
+                new MesPullInParameters { ParametersName = "bomInventoryOperationRevision", ParametersExplain = "贴纸PN及库存校验工位版本", ParametersPrice = "#" },
+                new MesPullInParameters { ParametersName = "bomInventoryActivity", ParametersExplain = "贴纸PN及库存校验活动", ParametersPrice = "EAP_WS" },
+                new MesPullInParameters { ParametersName = "bomInventoryResource", ParametersExplain = "贴纸PN及库存校验资源(为空则使用进站resource)", ParametersPrice = "" },
+                new MesPullInParameters { ParametersName = "bomInventoryModeCheckOperation", ParametersExplain = "贴纸PN及库存校验工位检查模式", ParametersPrice = "" },
+                new MesPullInParameters { ParametersName = "bomInventoryModeProcessSfc", ParametersExplain = "贴纸PN及库存校验过站模式", ParametersPrice = "MODE_COMPLETE_SFC_POST_DC" },
+                new MesPullInParameters { ParametersName = "bomInventoryUsage1", ParametersExplain = "贴纸PN校验参数1-usage", ParametersPrice = "RESOURCE" },
+                new MesPullInParameters { ParametersName = "bomInventoryCategory1", ParametersExplain = "贴纸PN校验参数1-category", ParametersPrice = "RESOURCE" },
+                new MesPullInParameters { ParametersName = "bomInventoryDataField1", ParametersExplain = "贴纸PN校验参数1-dataField", ParametersPrice = "Z_FMA_RES" },
+                new MesPullInParameters { ParametersName = "bomInventoryUsage2", ParametersExplain = "库存校验参数2-usage", ParametersPrice = "BOM" },
+                new MesPullInParameters { ParametersName = "bomInventoryCategory2", ParametersExplain = "库存校验参数2-category", ParametersPrice = "RESOURCE" },
+                new MesPullInParameters { ParametersName = "bomInventoryDataField2", ParametersExplain = "库存校验参数2-dataField", ParametersPrice = "Z_FMA_BOM" }
+            };
+
+            foreach (MesPullInParameters parameter in defaults)
+            {
+                if (!ResourceHandler.listMesPullInParameters.Any(item =>
+                    string.Equals(item.ParametersName, parameter.ParametersName, StringComparison.OrdinalIgnoreCase)))
+                {
+                    ResourceHandler.listMesPullInParameters.Add(parameter);
+                }
+            }
+        }
+
+        public void RefreshMesPullInParameterGrid()
+        {
+            MesPullInUI pullInUi = ResourceHandler.dparamParameters.mesPullInUI;
+            if (pullInUi == null || pullInUi.IsDisposed)
+            {
+                return;
+            }
+
+            DataGridViewClass.RemoveAllRow(pullInUi.dataGridView1);
+            foreach (MesPullInParameters item in ResourceHandler.listMesPullInParameters)
+            {
+                string[] values = { item.ParametersName, item.ParametersExplain, item.ParametersPrice };
+                DataGridViewClass.AddRows(pullInUi.dataGridView1, values, Color.White);
+            }
+        }
+
+        private void EnsureManualUploadInterfaceTypes()
+        {
+            const string bomInventoryManualType = "手动贴纸PN/库存校验";
+            if (!cmbInterfaceType.Items.Contains(bomInventoryManualType))
+            {
+                cmbInterfaceType.Items.Add(bomInventoryManualType);
             }
         }
 
@@ -1398,6 +1460,15 @@ namespace HJMSurrenSystem
             ResourceHandler.dparamParameters.mesPullInUI.ShowDialog();
         }
 
+        private void 贴纸PN库存校验配置ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (MesPullInUI bomInventoryUi = new MesPullInUI(this, true))
+            {
+                bomInventoryUi.language();
+                bomInventoryUi.ShowDialog(this);
+            }
+        }
+
         private void 出站配置ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ResourceHandler.dparamParameters.mesPullOutUI.language();
@@ -1541,15 +1612,22 @@ namespace HJMSurrenSystem
         {
             try
             {
-                string moduleCode = "";
-                int row = dataGridView3.CurrentRow.Index;
-                if (string.IsNullOrEmpty(textBox1.Text))
+                string moduleCode = textBox1.Text.Trim();
+                int row = dataGridView3.CurrentRow == null ? -1 : dataGridView3.CurrentRow.Index;
+                if (string.IsNullOrEmpty(moduleCode))
                 {
+                    if (row < 0)
+                    {
+                        MessageBox.Show("请输入条码，或先查询并选择一条数据");
+                        return;
+                    }
                     moduleCode = DataGridViewClass.GetRowsData(dataGridView3, row)[DataGridViewClass.GetColumnsIndex(dataGridView3, "模组码")];
                 }
-                else
+
+                if (string.IsNullOrWhiteSpace(moduleCode))
                 {
-                    moduleCode = textBox1.Text;
+                    MessageBox.Show("条码不能为空");
+                    return;
                 }
 
                 if (cmbInterfaceType.Text.Equals("手动进站"))
@@ -1561,6 +1639,16 @@ namespace HJMSurrenSystem
                         return;
                     }
                     MESoutDiary("手动进站成功", "信息");
+                }
+                else if (cmbInterfaceType.Text.Equals("手动贴纸PN/库存校验"))
+                {
+                    ResponseData responseData = ResourceHandler.dparamParameters.MesInteraction.CheckStickerPnAndInventory(moduleCode, true);
+                    if (responseData.code != 0)
+                    {
+                        MESoutDiary($"Code:{responseData.code} \r\nMessage:{responseData.message}\r\n原因:{responseData.Message}\r\n解决办法:{responseData.way}\r\n处理人员:{responseData.personinCharge}\r\n贴纸PN及库存校验失败", "警告");
+                        return;
+                    }
+                    MESoutDiary("手动贴纸PN及库存校验成功", "信息");
                 }
                 else if (cmbInterfaceType.Text.Equals("手动出站"))
                 {

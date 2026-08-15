@@ -122,6 +122,7 @@
             this.fTP参数设置ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MES配置ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.进站配置ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.贴纸PN库存校验配置ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.出站配置ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.首件配置ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.出站参数表ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -913,6 +914,7 @@
             // 
             this.MES配置ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.进站配置ToolStripMenuItem,
+            this.贴纸PN库存校验配置ToolStripMenuItem,
             this.出站配置ToolStripMenuItem,
             this.首件配置ToolStripMenuItem,
             this.出站参数表ToolStripMenuItem,
@@ -926,6 +928,13 @@
             this.进站配置ToolStripMenuItem.Name = "进站配置ToolStripMenuItem";
             resources.ApplyResources(this.进站配置ToolStripMenuItem, "进站配置ToolStripMenuItem");
             this.进站配置ToolStripMenuItem.Click += new System.EventHandler(this.进站配置ToolStripMenuItem_Click);
+            //
+            // 贴纸PN库存校验配置ToolStripMenuItem
+            //
+            this.贴纸PN库存校验配置ToolStripMenuItem.Name = "贴纸PN库存校验配置ToolStripMenuItem";
+            this.贴纸PN库存校验配置ToolStripMenuItem.Size = new System.Drawing.Size(339, 44);
+            this.贴纸PN库存校验配置ToolStripMenuItem.Text = "贴纸PN及库存校验配置";
+            this.贴纸PN库存校验配置ToolStripMenuItem.Click += new System.EventHandler(this.贴纸PN库存校验配置ToolStripMenuItem_Click);
             // 
             // 出站配置ToolStripMenuItem
             // 
@@ -1171,6 +1180,7 @@
         private System.Windows.Forms.ToolStripMenuItem pLC参数设置ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem MES配置ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 进站配置ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 贴纸PN库存校验配置ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 出站配置ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 首件配置ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 出站参数表ToolStripMenuItem;
