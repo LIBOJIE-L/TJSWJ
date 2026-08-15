@@ -1,0 +1,984 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="pictureBox1.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAQVJREFUOE+V
+        kj1uAjEQhV3ENhQ0SEgp1vZ2kdIjpBwhRbqUSByBhhpaCrr0SUWxR0gD4gxZbGuLLUKbKvQwRiOtWYa/
+        T3rNzHtPI9mMwmved1pkoNJq8WeVmIcZri8DoSloRwnKJmijsYp/UMFYXosx2o9xT6wFhk09QGj7m7Am
+        xipg8V4znpU38hVjFeE0ykzKyBHGKpySb6SZUJ7wHsaOgaf6pgKx4NJPtJ9izcMLmP7roUilTRsp2mnW
+        Wg6J4EHwzAO0nad4ZB0qDKf/oOU6TvHFSQnMcH2dPGHt8G1jFVo84/o2wr+IdXcBnl5aI5dQ8IXj2/GG
+        z5yWKyjJvOJdHNdgbA+doO0SHaBhyQAAAABJRU5ErkJggg==
+</value>
+  </data>
+  <data name="label10.Size" type="System.Drawing.Size, System.Drawing">
+    <value>95, 12</value>
+  </data>
+  <data name="label10.Text" xml:space="preserve">
+    <value>Heartbeat light</value>
+  </data>
+  <data name="label12.Location" type="System.Drawing.Point, System.Drawing">
+    <value>301, 21</value>
+  </data>
+  <data name="label12.Size" type="System.Drawing.Size, System.Drawing">
+    <value>119, 12</value>
+  </data>
+  <data name="label12.Text" xml:space="preserve">
+    <value>MES shields signals</value>
+  </data>
+  <data name="pictureBox2.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAQVJREFUOE+V
+        kj1uAjEQhV3ENhQ0SEgp1vZ2kdIjpBwhRbqUSByBhhpaCrr0SUWxR0gD4gxZbGuLLUKbKvQwRiOtWYa/
+        T3rNzHtPI9mMwmved1pkoNJq8WeVmIcZri8DoSloRwnKJmijsYp/UMFYXosx2o9xT6wFhk09QGj7m7Am
+        xipg8V4znpU38hVjFeE0ykzKyBHGKpySb6SZUJ7wHsaOgaf6pgKx4NJPtJ9izcMLmP7roUilTRsp2mnW
+        Wg6J4EHwzAO0nad4ZB0qDKf/oOU6TvHFSQnMcH2dPGHt8G1jFVo84/o2wr+IdXcBnl5aI5dQ8IXj2/GG
+        z5yWKyjJvOJdHNdgbA+doO0SHaBhyQAAAABJRU5ErkJggg==
+</value>
+  </data>
+  <data name="pictureBox2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>261, 12</value>
+  </data>
+  <data name="pictureBox3.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAQVJREFUOE+V
+        kj1uAjEQhV3ENhQ0SEgp1vZ2kdIjpBwhRbqUSByBhhpaCrr0SUWxR0gD4gxZbGuLLUKbKvQwRiOtWYa/
+        T3rNzHtPI9mMwmved1pkoNJq8WeVmIcZri8DoSloRwnKJmijsYp/UMFYXosx2o9xT6wFhk09QGj7m7Am
+        xipg8V4znpU38hVjFeE0ykzKyBHGKpySb6SZUJ7wHsaOgaf6pgKx4NJPtJ9izcMLmP7roUilTRsp2mnW
+        Wg6J4EHwzAO0nad4ZB0qDKf/oOU6TvHFSQnMcH2dPGHt8G1jFVo84/o2wr+IdXcBnl5aI5dQ8IXj2/GG
+        z5yWKyjJvOJdHNdgbA+doO0SHaBhyQAAAABJRU5ErkJggg==
+</value>
+  </data>
+  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>119, 12</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>Pit stop 1 triggers</value>
+  </data>
+  <data name="pictureBox4.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAQVJREFUOE+V
+        kj1uAjEQhV3ENhQ0SEgp1vZ2kdIjpBwhRbqUSByBhhpaCrr0SUWxR0gD4gxZbGuLLUKbKvQwRiOtWYa/
+        T3rNzHtPI9mMwmved1pkoNJq8WeVmIcZri8DoSloRwnKJmijsYp/UMFYXosx2o9xT6wFhk09QGj7m7Am
+        xipg8V4znpU38hVjFeE0ykzKyBHGKpySb6SZUJ7wHsaOgaf6pgKx4NJPtJ9izcMLmP7roUilTRsp2mnW
+        Wg6J4EHwzAO0nad4ZB0qDKf/oOU6TvHFSQnMcH2dPGHt8G1jFVo84/o2wr+IdXcBnl5aI5dQ8IXj2/GG
+        z5yWKyjJvOJdHNdgbA+doO0SHaBhyQAAAABJRU5ErkJggg==
+</value>
+  </data>
+  <data name="pictureBox4.Location" type="System.Drawing.Point, System.Drawing">
+    <value>261, 65</value>
+  </data>
+  <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>301, 74</value>
+  </data>
+  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>77, 12</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>Pit stop 1OK</value>
+  </data>
+  <data name="pictureBox5.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAQVJREFUOE+V
+        kj1uAjEQhV3ENhQ0SEgp1vZ2kdIjpBwhRbqUSByBhhpaCrr0SUWxR0gD4gxZbGuLLUKbKvQwRiOtWYa/
+        T3rNzHtPI9mMwmved1pkoNJq8WeVmIcZri8DoSloRwnKJmijsYp/UMFYXosx2o9xT6wFhk09QGj7m7Am
+        xipg8V4znpU38hVjFeE0ykzKyBHGKpySb6SZUJ7wHsaOgaf6pgKx4NJPtJ9izcMLmP7roUilTRsp2mnW
+        Wg6J4EHwzAO0nad4ZB0qDKf/oOU6TvHFSQnMcH2dPGHt8G1jFVo84/o2wr+IdXcBnl5aI5dQ8IXj2/GG
+        z5yWKyjJvOJdHNdgbA+doO0SHaBhyQAAAABJRU5ErkJggg==
+</value>
+  </data>
+  <data name="pictureBox5.Location" type="System.Drawing.Point, System.Drawing">
+    <value>481, 65</value>
+  </data>
+  <data name="label3.Location" type="System.Drawing.Point, System.Drawing">
+    <value>521, 74</value>
+  </data>
+  <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>77, 12</value>
+  </data>
+  <data name="label3.Text" xml:space="preserve">
+    <value>Pit stop 1NG</value>
+  </data>
+  <data name="pictureBox6.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAQVJREFUOE+V
+        kj1uAjEQhV3ENhQ0SEgp1vZ2kdIjpBwhRbqUSByBhhpaCrr0SUWxR0gD4gxZbGuLLUKbKvQwRiOtWYa/
+        T3rNzHtPI9mMwmved1pkoNJq8WeVmIcZri8DoSloRwnKJmijsYp/UMFYXosx2o9xT6wFhk09QGj7m7Am
+        xipg8V4znpU38hVjFeE0ykzKyBHGKpySb6SZUJ7wHsaOgaf6pgKx4NJPtJ9izcMLmP7roUilTRsp2mnW
+        Wg6J4EHwzAO0nad4ZB0qDKf/oOU6TvHFSQnMcH2dPGHt8G1jFVo84/o2wr+IdXcBnl5aI5dQ8IXj2/GG
+        z5yWKyjJvOJdHNdgbA+doO0SHaBhyQAAAABJRU5ErkJggg==
+</value>
+  </data>
+  <data name="pictureBox6.Location" type="System.Drawing.Point, System.Drawing">
+    <value>712, 65</value>
+  </data>
+  <data name="label4.Location" type="System.Drawing.Point, System.Drawing">
+    <value>752, 74</value>
+  </data>
+  <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>119, 12</value>
+  </data>
+  <data name="label4.Text" xml:space="preserve">
+    <value>Outbound 1 triggers</value>
+  </data>
+  <data name="pictureBox7.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAQVJREFUOE+V
+        kj1uAjEQhV3ENhQ0SEgp1vZ2kdIjpBwhRbqUSByBhhpaCrr0SUWxR0gD4gxZbGuLLUKbKvQwRiOtWYa/
+        T3rNzHtPI9mMwmved1pkoNJq8WeVmIcZri8DoSloRwnKJmijsYp/UMFYXosx2o9xT6wFhk09QGj7m7Am
+        xipg8V4znpU38hVjFeE0ykzKyBHGKpySb6SZUJ7wHsaOgaf6pgKx4NJPtJ9izcMLmP7roUilTRsp2mnW
+        Wg6J4EHwzAO0nad4ZB0qDKf/oOU6TvHFSQnMcH2dPGHt8G1jFVo84/o2wr+IdXcBnl5aI5dQ8IXj2/GG
+        z5yWKyjJvOJdHNdgbA+doO0SHaBhyQAAAABJRU5ErkJggg==
+</value>
+  </data>
+  <data name="pictureBox7.Location" type="System.Drawing.Point, System.Drawing">
+    <value>973, 65</value>
+  </data>
+  <data name="label5.Location" type="System.Drawing.Point, System.Drawing">
+    <value>1013, 74</value>
+  </data>
+  <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
+    <value>77, 12</value>
+  </data>
+  <data name="label5.Text" xml:space="preserve">
+    <value>Outbound 1OK</value>
+  </data>
+  <data name="pictureBox8.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAQVJREFUOE+V
+        kj1uAjEQhV3ENhQ0SEgp1vZ2kdIjpBwhRbqUSByBhhpaCrr0SUWxR0gD4gxZbGuLLUKbKvQwRiOtWYa/
+        T3rNzHtPI9mMwmved1pkoNJq8WeVmIcZri8DoSloRwnKJmijsYp/UMFYXosx2o9xT6wFhk09QGj7m7Am
+        xipg8V4znpU38hVjFeE0ykzKyBHGKpySb6SZUJ7wHsaOgaf6pgKx4NJPtJ9izcMLmP7roUilTRsp2mnW
+        Wg6J4EHwzAO0nad4ZB0qDKf/oOU6TvHFSQnMcH2dPGHt8G1jFVo84/o2wr+IdXcBnl5aI5dQ8IXj2/GG
+        z5yWKyjJvOJdHNdgbA+doO0SHaBhyQAAAABJRU5ErkJggg==
+</value>
+  </data>
+  <data name="pictureBox8.Location" type="System.Drawing.Point, System.Drawing">
+    <value>1174, 65</value>
+  </data>
+  <data name="label6.Location" type="System.Drawing.Point, System.Drawing">
+    <value>1214, 74</value>
+  </data>
+  <data name="label6.Size" type="System.Drawing.Size, System.Drawing">
+    <value>77, 12</value>
+  </data>
+  <data name="label6.Text" xml:space="preserve">
+    <value>OUTBOUND 1NG</value>
+  </data>
+  <data name="pictureBox9.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAQVJREFUOE+V
+        kj1uAjEQhV3ENhQ0SEgp1vZ2kdIjpBwhRbqUSByBhhpaCrr0SUWxR0gD4gxZbGuLLUKbKvQwRiOtWYa/
+        T3rNzHtPI9mMwmved1pkoNJq8WeVmIcZri8DoSloRwnKJmijsYp/UMFYXosx2o9xT6wFhk09QGj7m7Am
+        xipg8V4znpU38hVjFeE0ykzKyBHGKpySb6SZUJ7wHsaOgaf6pgKx4NJPtJ9izcMLmP7roUilTRsp2mnW
+        Wg6J4EHwzAO0nad4ZB0qDKf/oOU6TvHFSQnMcH2dPGHt8G1jFVo84/o2wr+IdXcBnl5aI5dQ8IXj2/GG
+        z5yWKyjJvOJdHNdgbA+doO0SHaBhyQAAAABJRU5ErkJggg==
+</value>
+  </data>
+  <data name="pictureBox9.Location" type="System.Drawing.Point, System.Drawing">
+    <value>1174, 119</value>
+  </data>
+  <data name="label7.Location" type="System.Drawing.Point, System.Drawing">
+    <value>1214, 128</value>
+  </data>
+  <data name="label7.Size" type="System.Drawing.Size, System.Drawing">
+    <value>77, 12</value>
+  </data>
+  <data name="label7.Text" xml:space="preserve">
+    <value>OUTBOUND 2NG</value>
+  </data>
+  <data name="pictureBox10.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAQVJREFUOE+V
+        kj1uAjEQhV3ENhQ0SEgp1vZ2kdIjpBwhRbqUSByBhhpaCrr0SUWxR0gD4gxZbGuLLUKbKvQwRiOtWYa/
+        T3rNzHtPI9mMwmved1pkoNJq8WeVmIcZri8DoSloRwnKJmijsYp/UMFYXosx2o9xT6wFhk09QGj7m7Am
+        xipg8V4znpU38hVjFeE0ykzKyBHGKpySb6SZUJ7wHsaOgaf6pgKx4NJPtJ9izcMLmP7roUilTRsp2mnW
+        Wg6J4EHwzAO0nad4ZB0qDKf/oOU6TvHFSQnMcH2dPGHt8G1jFVo84/o2wr+IdXcBnl5aI5dQ8IXj2/GG
+        z5yWKyjJvOJdHNdgbA+doO0SHaBhyQAAAABJRU5ErkJggg==
+</value>
+  </data>
+  <data name="pictureBox10.Location" type="System.Drawing.Point, System.Drawing">
+    <value>973, 119</value>
+  </data>
+  <data name="label8.Location" type="System.Drawing.Point, System.Drawing">
+    <value>1013, 128</value>
+  </data>
+  <data name="label8.Size" type="System.Drawing.Size, System.Drawing">
+    <value>77, 12</value>
+  </data>
+  <data name="label8.Text" xml:space="preserve">
+    <value>Outbound 2OK</value>
+  </data>
+  <data name="pictureBox11.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAQVJREFUOE+V
+        kj1uAjEQhV3ENhQ0SEgp1vZ2kdIjpBwhRbqUSByBhhpaCrr0SUWxR0gD4gxZbGuLLUKbKvQwRiOtWYa/
+        T3rNzHtPI9mMwmved1pkoNJq8WeVmIcZri8DoSloRwnKJmijsYp/UMFYXosx2o9xT6wFhk09QGj7m7Am
+        xipg8V4znpU38hVjFeE0ykzKyBHGKpySb6SZUJ7wHsaOgaf6pgKx4NJPtJ9izcMLmP7roUilTRsp2mnW
+        Wg6J4EHwzAO0nad4ZB0qDKf/oOU6TvHFSQnMcH2dPGHt8G1jFVo84/o2wr+IdXcBnl5aI5dQ8IXj2/GG
+        z5yWKyjJvOJdHNdgbA+doO0SHaBhyQAAAABJRU5ErkJggg==
+</value>
+  </data>
+  <data name="pictureBox11.Location" type="System.Drawing.Point, System.Drawing">
+    <value>712, 119</value>
+  </data>
+  <data name="label9.Location" type="System.Drawing.Point, System.Drawing">
+    <value>752, 128</value>
+  </data>
+  <data name="label9.Size" type="System.Drawing.Size, System.Drawing">
+    <value>119, 12</value>
+  </data>
+  <data name="label9.Text" xml:space="preserve">
+    <value>Outbound 2 triggers</value>
+  </data>
+  <data name="pictureBox12.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAQVJREFUOE+V
+        kj1uAjEQhV3ENhQ0SEgp1vZ2kdIjpBwhRbqUSByBhhpaCrr0SUWxR0gD4gxZbGuLLUKbKvQwRiOtWYa/
+        T3rNzHtPI9mMwmved1pkoNJq8WeVmIcZri8DoSloRwnKJmijsYp/UMFYXosx2o9xT6wFhk09QGj7m7Am
+        xipg8V4znpU38hVjFeE0ykzKyBHGKpySb6SZUJ7wHsaOgaf6pgKx4NJPtJ9izcMLmP7roUilTRsp2mnW
+        Wg6J4EHwzAO0nad4ZB0qDKf/oOU6TvHFSQnMcH2dPGHt8G1jFVo84/o2wr+IdXcBnl5aI5dQ8IXj2/GG
+        z5yWKyjJvOJdHNdgbA+doO0SHaBhyQAAAABJRU5ErkJggg==
+</value>
+  </data>
+  <data name="pictureBox12.Location" type="System.Drawing.Point, System.Drawing">
+    <value>481, 119</value>
+  </data>
+  <data name="label11.Location" type="System.Drawing.Point, System.Drawing">
+    <value>521, 128</value>
+  </data>
+  <data name="label11.Size" type="System.Drawing.Size, System.Drawing">
+    <value>77, 12</value>
+  </data>
+  <data name="label11.Text" xml:space="preserve">
+    <value>Pit stop 2NG</value>
+  </data>
+  <data name="pictureBox13.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAQVJREFUOE+V
+        kj1uAjEQhV3ENhQ0SEgp1vZ2kdIjpBwhRbqUSByBhhpaCrr0SUWxR0gD4gxZbGuLLUKbKvQwRiOtWYa/
+        T3rNzHtPI9mMwmved1pkoNJq8WeVmIcZri8DoSloRwnKJmijsYp/UMFYXosx2o9xT6wFhk09QGj7m7Am
+        xipg8V4znpU38hVjFeE0ykzKyBHGKpySb6SZUJ7wHsaOgaf6pgKx4NJPtJ9izcMLmP7roUilTRsp2mnW
+        Wg6J4EHwzAO0nad4ZB0qDKf/oOU6TvHFSQnMcH2dPGHt8G1jFVo84/o2wr+IdXcBnl5aI5dQ8IXj2/GG
+        z5yWKyjJvOJdHNdgbA+doO0SHaBhyQAAAABJRU5ErkJggg==
+</value>
+  </data>
+  <data name="pictureBox13.Location" type="System.Drawing.Point, System.Drawing">
+    <value>261, 119</value>
+  </data>
+  <data name="label13.Location" type="System.Drawing.Point, System.Drawing">
+    <value>301, 128</value>
+  </data>
+  <data name="label13.Size" type="System.Drawing.Size, System.Drawing">
+    <value>77, 12</value>
+  </data>
+  <data name="label13.Text" xml:space="preserve">
+    <value>Pit stop 2OK</value>
+  </data>
+  <data name="pictureBox14.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAQVJREFUOE+V
+        kj1uAjEQhV3ENhQ0SEgp1vZ2kdIjpBwhRbqUSByBhhpaCrr0SUWxR0gD4gxZbGuLLUKbKvQwRiOtWYa/
+        T3rNzHtPI9mMwmved1pkoNJq8WeVmIcZri8DoSloRwnKJmijsYp/UMFYXosx2o9xT6wFhk09QGj7m7Am
+        xipg8V4znpU38hVjFeE0ykzKyBHGKpySb6SZUJ7wHsaOgaf6pgKx4NJPtJ9izcMLmP7roUilTRsp2mnW
+        Wg6J4EHwzAO0nad4ZB0qDKf/oOU6TvHFSQnMcH2dPGHt8G1jFVo84/o2wr+IdXcBnl5aI5dQ8IXj2/GG
+        z5yWKyjJvOJdHNdgbA+doO0SHaBhyQAAAABJRU5ErkJggg==
+</value>
+  </data>
+  <data name="label14.Size" type="System.Drawing.Size, System.Drawing">
+    <value>113, 12</value>
+  </data>
+  <data name="label14.Text" xml:space="preserve">
+    <value>Pit stop 2 trigger</value>
+  </data>
+  <data name="pictureBox15.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAQVJREFUOE+V
+        kj1uAjEQhV3ENhQ0SEgp1vZ2kdIjpBwhRbqUSByBhhpaCrr0SUWxR0gD4gxZbGuLLUKbKvQwRiOtWYa/
+        T3rNzHtPI9mMwmved1pkoNJq8WeVmIcZri8DoSloRwnKJmijsYp/UMFYXosx2o9xT6wFhk09QGj7m7Am
+        xipg8V4znpU38hVjFeE0ykzKyBHGKpySb6SZUJ7wHsaOgaf6pgKx4NJPtJ9izcMLmP7roUilTRsp2mnW
+        Wg6J4EHwzAO0nad4ZB0qDKf/oOU6TvHFSQnMcH2dPGHt8G1jFVo84/o2wr+IdXcBnl5aI5dQ8IXj2/GG
+        z5yWKyjJvOJdHNdgbA+doO0SHaBhyQAAAABJRU5ErkJggg==
+</value>
+  </data>
+  <data name="pictureBox15.Location" type="System.Drawing.Point, System.Drawing">
+    <value>1174, 172</value>
+  </data>
+  <data name="label15.Location" type="System.Drawing.Point, System.Drawing">
+    <value>1214, 181</value>
+  </data>
+  <data name="label15.Size" type="System.Drawing.Size, System.Drawing">
+    <value>77, 12</value>
+  </data>
+  <data name="label15.Text" xml:space="preserve">
+    <value>OUTBOUND 3NG</value>
+  </data>
+  <data name="pictureBox16.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAQVJREFUOE+V
+        kj1uAjEQhV3ENhQ0SEgp1vZ2kdIjpBwhRbqUSByBhhpaCrr0SUWxR0gD4gxZbGuLLUKbKvQwRiOtWYa/
+        T3rNzHtPI9mMwmved1pkoNJq8WeVmIcZri8DoSloRwnKJmijsYp/UMFYXosx2o9xT6wFhk09QGj7m7Am
+        xipg8V4znpU38hVjFeE0ykzKyBHGKpySb6SZUJ7wHsaOgaf6pgKx4NJPtJ9izcMLmP7roUilTRsp2mnW
+        Wg6J4EHwzAO0nad4ZB0qDKf/oOU6TvHFSQnMcH2dPGHt8G1jFVo84/o2wr+IdXcBnl5aI5dQ8IXj2/GG
+        z5yWKyjJvOJdHNdgbA+doO0SHaBhyQAAAABJRU5ErkJggg==
+</value>
+  </data>
+  <data name="pictureBox16.Location" type="System.Drawing.Point, System.Drawing">
+    <value>973, 172</value>
+  </data>
+  <data name="label16.Location" type="System.Drawing.Point, System.Drawing">
+    <value>1013, 181</value>
+  </data>
+  <data name="label16.Size" type="System.Drawing.Size, System.Drawing">
+    <value>77, 12</value>
+  </data>
+  <data name="label16.Text" xml:space="preserve">
+    <value>Outbound 3OK</value>
+  </data>
+  <data name="pictureBox17.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAQVJREFUOE+V
+        kj1uAjEQhV3ENhQ0SEgp1vZ2kdIjpBwhRbqUSByBhhpaCrr0SUWxR0gD4gxZbGuLLUKbKvQwRiOtWYa/
+        T3rNzHtPI9mMwmved1pkoNJq8WeVmIcZri8DoSloRwnKJmijsYp/UMFYXosx2o9xT6wFhk09QGj7m7Am
+        xipg8V4znpU38hVjFeE0ykzKyBHGKpySb6SZUJ7wHsaOgaf6pgKx4NJPtJ9izcMLmP7roUilTRsp2mnW
+        Wg6J4EHwzAO0nad4ZB0qDKf/oOU6TvHFSQnMcH2dPGHt8G1jFVo84/o2wr+IdXcBnl5aI5dQ8IXj2/GG
+        z5yWKyjJvOJdHNdgbA+doO0SHaBhyQAAAABJRU5ErkJggg==
+</value>
+  </data>
+  <data name="pictureBox17.Location" type="System.Drawing.Point, System.Drawing">
+    <value>712, 172</value>
+  </data>
+  <data name="label17.Location" type="System.Drawing.Point, System.Drawing">
+    <value>752, 181</value>
+  </data>
+  <data name="label17.Size" type="System.Drawing.Size, System.Drawing">
+    <value>119, 12</value>
+  </data>
+  <data name="label17.Text" xml:space="preserve">
+    <value>Outbound 3 triggers</value>
+  </data>
+  <data name="pictureBox18.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAQVJREFUOE+V
+        kj1uAjEQhV3ENhQ0SEgp1vZ2kdIjpBwhRbqUSByBhhpaCrr0SUWxR0gD4gxZbGuLLUKbKvQwRiOtWYa/
+        T3rNzHtPI9mMwmved1pkoNJq8WeVmIcZri8DoSloRwnKJmijsYp/UMFYXosx2o9xT6wFhk09QGj7m7Am
+        xipg8V4znpU38hVjFeE0ykzKyBHGKpySb6SZUJ7wHsaOgaf6pgKx4NJPtJ9izcMLmP7roUilTRsp2mnW
+        Wg6J4EHwzAO0nad4ZB0qDKf/oOU6TvHFSQnMcH2dPGHt8G1jFVo84/o2wr+IdXcBnl5aI5dQ8IXj2/GG
+        z5yWKyjJvOJdHNdgbA+doO0SHaBhyQAAAABJRU5ErkJggg==
+</value>
+  </data>
+  <data name="pictureBox18.Location" type="System.Drawing.Point, System.Drawing">
+    <value>481, 172</value>
+  </data>
+  <data name="label18.Location" type="System.Drawing.Point, System.Drawing">
+    <value>521, 181</value>
+  </data>
+  <data name="label18.Size" type="System.Drawing.Size, System.Drawing">
+    <value>77, 12</value>
+  </data>
+  <data name="label18.Text" xml:space="preserve">
+    <value>Pit stop 3NG</value>
+  </data>
+  <data name="pictureBox19.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAQVJREFUOE+V
+        kj1uAjEQhV3ENhQ0SEgp1vZ2kdIjpBwhRbqUSByBhhpaCrr0SUWxR0gD4gxZbGuLLUKbKvQwRiOtWYa/
+        T3rNzHtPI9mMwmved1pkoNJq8WeVmIcZri8DoSloRwnKJmijsYp/UMFYXosx2o9xT6wFhk09QGj7m7Am
+        xipg8V4znpU38hVjFeE0ykzKyBHGKpySb6SZUJ7wHsaOgaf6pgKx4NJPtJ9izcMLmP7roUilTRsp2mnW
+        Wg6J4EHwzAO0nad4ZB0qDKf/oOU6TvHFSQnMcH2dPGHt8G1jFVo84/o2wr+IdXcBnl5aI5dQ8IXj2/GG
+        z5yWKyjJvOJdHNdgbA+doO0SHaBhyQAAAABJRU5ErkJggg==
+</value>
+  </data>
+  <data name="pictureBox19.Location" type="System.Drawing.Point, System.Drawing">
+    <value>261, 172</value>
+  </data>
+  <data name="label19.Location" type="System.Drawing.Point, System.Drawing">
+    <value>301, 181</value>
+  </data>
+  <data name="label19.Size" type="System.Drawing.Size, System.Drawing">
+    <value>77, 12</value>
+  </data>
+  <data name="label19.Text" xml:space="preserve">
+    <value>Pit stop 3OK</value>
+  </data>
+  <data name="pictureBox20.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAQVJREFUOE+V
+        kj1uAjEQhV3ENhQ0SEgp1vZ2kdIjpBwhRbqUSByBhhpaCrr0SUWxR0gD4gxZbGuLLUKbKvQwRiOtWYa/
+        T3rNzHtPI9mMwmved1pkoNJq8WeVmIcZri8DoSloRwnKJmijsYp/UMFYXosx2o9xT6wFhk09QGj7m7Am
+        xipg8V4znpU38hVjFeE0ykzKyBHGKpySb6SZUJ7wHsaOgaf6pgKx4NJPtJ9izcMLmP7roUilTRsp2mnW
+        Wg6J4EHwzAO0nad4ZB0qDKf/oOU6TvHFSQnMcH2dPGHt8G1jFVo84/o2wr+IdXcBnl5aI5dQ8IXj2/GG
+        z5yWKyjJvOJdHNdgbA+doO0SHaBhyQAAAABJRU5ErkJggg==
+</value>
+  </data>
+  <data name="label20.Size" type="System.Drawing.Size, System.Drawing">
+    <value>113, 12</value>
+  </data>
+  <data name="label20.Text" xml:space="preserve">
+    <value>Pit stop 3 trigger</value>
+  </data>
+  <data name="pictureBox21.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAQVJREFUOE+V
+        kj1uAjEQhV3ENhQ0SEgp1vZ2kdIjpBwhRbqUSByBhhpaCrr0SUWxR0gD4gxZbGuLLUKbKvQwRiOtWYa/
+        T3rNzHtPI9mMwmved1pkoNJq8WeVmIcZri8DoSloRwnKJmijsYp/UMFYXosx2o9xT6wFhk09QGj7m7Am
+        xipg8V4znpU38hVjFeE0ykzKyBHGKpySb6SZUJ7wHsaOgaf6pgKx4NJPtJ9izcMLmP7roUilTRsp2mnW
+        Wg6J4EHwzAO0nad4ZB0qDKf/oOU6TvHFSQnMcH2dPGHt8G1jFVo84/o2wr+IdXcBnl5aI5dQ8IXj2/GG
+        z5yWKyjJvOJdHNdgbA+doO0SHaBhyQAAAABJRU5ErkJggg==
+</value>
+  </data>
+  <data name="pictureBox21.Location" type="System.Drawing.Point, System.Drawing">
+    <value>1174, 222</value>
+  </data>
+  <data name="label21.Location" type="System.Drawing.Point, System.Drawing">
+    <value>1214, 231</value>
+  </data>
+  <data name="label21.Size" type="System.Drawing.Size, System.Drawing">
+    <value>77, 12</value>
+  </data>
+  <data name="label21.Text" xml:space="preserve">
+    <value>OUTBOUND 4NG</value>
+  </data>
+  <data name="pictureBox22.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAQVJREFUOE+V
+        kj1uAjEQhV3ENhQ0SEgp1vZ2kdIjpBwhRbqUSByBhhpaCrr0SUWxR0gD4gxZbGuLLUKbKvQwRiOtWYa/
+        T3rNzHtPI9mMwmved1pkoNJq8WeVmIcZri8DoSloRwnKJmijsYp/UMFYXosx2o9xT6wFhk09QGj7m7Am
+        xipg8V4znpU38hVjFeE0ykzKyBHGKpySb6SZUJ7wHsaOgaf6pgKx4NJPtJ9izcMLmP7roUilTRsp2mnW
+        Wg6J4EHwzAO0nad4ZB0qDKf/oOU6TvHFSQnMcH2dPGHt8G1jFVo84/o2wr+IdXcBnl5aI5dQ8IXj2/GG
+        z5yWKyjJvOJdHNdgbA+doO0SHaBhyQAAAABJRU5ErkJggg==
+</value>
+  </data>
+  <data name="pictureBox22.Location" type="System.Drawing.Point, System.Drawing">
+    <value>973, 222</value>
+  </data>
+  <data name="label22.Location" type="System.Drawing.Point, System.Drawing">
+    <value>1013, 231</value>
+  </data>
+  <data name="label22.Size" type="System.Drawing.Size, System.Drawing">
+    <value>77, 12</value>
+  </data>
+  <data name="label22.Text" xml:space="preserve">
+    <value>Outbound 4OK</value>
+  </data>
+  <data name="pictureBox23.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAQVJREFUOE+V
+        kj1uAjEQhV3ENhQ0SEgp1vZ2kdIjpBwhRbqUSByBhhpaCrr0SUWxR0gD4gxZbGuLLUKbKvQwRiOtWYa/
+        T3rNzHtPI9mMwmved1pkoNJq8WeVmIcZri8DoSloRwnKJmijsYp/UMFYXosx2o9xT6wFhk09QGj7m7Am
+        xipg8V4znpU38hVjFeE0ykzKyBHGKpySb6SZUJ7wHsaOgaf6pgKx4NJPtJ9izcMLmP7roUilTRsp2mnW
+        Wg6J4EHwzAO0nad4ZB0qDKf/oOU6TvHFSQnMcH2dPGHt8G1jFVo84/o2wr+IdXcBnl5aI5dQ8IXj2/GG
+        z5yWKyjJvOJdHNdgbA+doO0SHaBhyQAAAABJRU5ErkJggg==
+</value>
+  </data>
+  <data name="pictureBox23.Location" type="System.Drawing.Point, System.Drawing">
+    <value>712, 222</value>
+  </data>
+  <data name="label23.Location" type="System.Drawing.Point, System.Drawing">
+    <value>752, 231</value>
+  </data>
+  <data name="label23.Size" type="System.Drawing.Size, System.Drawing">
+    <value>119, 12</value>
+  </data>
+  <data name="label23.Text" xml:space="preserve">
+    <value>Outbound 4 triggers</value>
+  </data>
+  <data name="pictureBox24.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAQVJREFUOE+V
+        kj1uAjEQhV3ENhQ0SEgp1vZ2kdIjpBwhRbqUSByBhhpaCrr0SUWxR0gD4gxZbGuLLUKbKvQwRiOtWYa/
+        T3rNzHtPI9mMwmved1pkoNJq8WeVmIcZri8DoSloRwnKJmijsYp/UMFYXosx2o9xT6wFhk09QGj7m7Am
+        xipg8V4znpU38hVjFeE0ykzKyBHGKpySb6SZUJ7wHsaOgaf6pgKx4NJPtJ9izcMLmP7roUilTRsp2mnW
+        Wg6J4EHwzAO0nad4ZB0qDKf/oOU6TvHFSQnMcH2dPGHt8G1jFVo84/o2wr+IdXcBnl5aI5dQ8IXj2/GG
+        z5yWKyjJvOJdHNdgbA+doO0SHaBhyQAAAABJRU5ErkJggg==
+</value>
+  </data>
+  <data name="pictureBox24.Location" type="System.Drawing.Point, System.Drawing">
+    <value>481, 222</value>
+  </data>
+  <data name="label24.Location" type="System.Drawing.Point, System.Drawing">
+    <value>521, 231</value>
+  </data>
+  <data name="label24.Size" type="System.Drawing.Size, System.Drawing">
+    <value>77, 12</value>
+  </data>
+  <data name="label24.Text" xml:space="preserve">
+    <value>Pit stop 4NG</value>
+  </data>
+  <data name="pictureBox25.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAQVJREFUOE+V
+        kj1uAjEQhV3ENhQ0SEgp1vZ2kdIjpBwhRbqUSByBhhpaCrr0SUWxR0gD4gxZbGuLLUKbKvQwRiOtWYa/
+        T3rNzHtPI9mMwmved1pkoNJq8WeVmIcZri8DoSloRwnKJmijsYp/UMFYXosx2o9xT6wFhk09QGj7m7Am
+        xipg8V4znpU38hVjFeE0ykzKyBHGKpySb6SZUJ7wHsaOgaf6pgKx4NJPtJ9izcMLmP7roUilTRsp2mnW
+        Wg6J4EHwzAO0nad4ZB0qDKf/oOU6TvHFSQnMcH2dPGHt8G1jFVo84/o2wr+IdXcBnl5aI5dQ8IXj2/GG
+        z5yWKyjJvOJdHNdgbA+doO0SHaBhyQAAAABJRU5ErkJggg==
+</value>
+  </data>
+  <data name="pictureBox25.Location" type="System.Drawing.Point, System.Drawing">
+    <value>261, 222</value>
+  </data>
+  <data name="label25.Location" type="System.Drawing.Point, System.Drawing">
+    <value>301, 231</value>
+  </data>
+  <data name="label25.Size" type="System.Drawing.Size, System.Drawing">
+    <value>77, 12</value>
+  </data>
+  <data name="label25.Text" xml:space="preserve">
+    <value>Pit stop 4OK</value>
+  </data>
+  <data name="pictureBox26.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAQVJREFUOE+V
+        kj1uAjEQhV3ENhQ0SEgp1vZ2kdIjpBwhRbqUSByBhhpaCrr0SUWxR0gD4gxZbGuLLUKbKvQwRiOtWYa/
+        T3rNzHtPI9mMwmved1pkoNJq8WeVmIcZri8DoSloRwnKJmijsYp/UMFYXosx2o9xT6wFhk09QGj7m7Am
+        xipg8V4znpU38hVjFeE0ykzKyBHGKpySb6SZUJ7wHsaOgaf6pgKx4NJPtJ9izcMLmP7roUilTRsp2mnW
+        Wg6J4EHwzAO0nad4ZB0qDKf/oOU6TvHFSQnMcH2dPGHt8G1jFVo84/o2wr+IdXcBnl5aI5dQ8IXj2/GG
+        z5yWKyjJvOJdHNdgbA+doO0SHaBhyQAAAABJRU5ErkJggg==
+</value>
+  </data>
+  <data name="label26.Size" type="System.Drawing.Size, System.Drawing">
+    <value>113, 12</value>
+  </data>
+  <data name="label26.Text" xml:space="preserve">
+    <value>Pit stop 4 trigger</value>
+  </data>
+  <data name="pictureBox30.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAQVJREFUOE+V
+        kj1uAjEQhV3ENhQ0SEgp1vZ2kdIjpBwhRbqUSByBhhpaCrr0SUWxR0gD4gxZbGuLLUKbKvQwRiOtWYa/
+        T3rNzHtPI9mMwmved1pkoNJq8WeVmIcZri8DoSloRwnKJmijsYp/UMFYXosx2o9xT6wFhk09QGj7m7Am
+        xipg8V4znpU38hVjFeE0ykzKyBHGKpySb6SZUJ7wHsaOgaf6pgKx4NJPtJ9izcMLmP7roUilTRsp2mnW
+        Wg6J4EHwzAO0nad4ZB0qDKf/oOU6TvHFSQnMcH2dPGHt8G1jFVo84/o2wr+IdXcBnl5aI5dQ8IXj2/GG
+        z5yWKyjJvOJdHNdgbA+doO0SHaBhyQAAAABJRU5ErkJggg==
+</value>
+  </data>
+  <data name="pictureBox30.Location" type="System.Drawing.Point, System.Drawing">
+    <value>481, 270</value>
+  </data>
+  <data name="label30.Location" type="System.Drawing.Point, System.Drawing">
+    <value>532, 279</value>
+  </data>
+  <data name="label30.Size" type="System.Drawing.Size, System.Drawing">
+    <value>179, 12</value>
+  </data>
+  <data name="label30.Text" xml:space="preserve">
+    <value>Repair welding pit station NG</value>
+  </data>
+  <data name="pictureBox31.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAQVJREFUOE+V
+        kj1uAjEQhV3ENhQ0SEgp1vZ2kdIjpBwhRbqUSByBhhpaCrr0SUWxR0gD4gxZbGuLLUKbKvQwRiOtWYa/
+        T3rNzHtPI9mMwmved1pkoNJq8WeVmIcZri8DoSloRwnKJmijsYp/UMFYXosx2o9xT6wFhk09QGj7m7Am
+        xipg8V4znpU38hVjFeE0ykzKyBHGKpySb6SZUJ7wHsaOgaf6pgKx4NJPtJ9izcMLmP7roUilTRsp2mnW
+        Wg6J4EHwzAO0nad4ZB0qDKf/oOU6TvHFSQnMcH2dPGHt8G1jFVo84/o2wr+IdXcBnl5aI5dQ8IXj2/GG
+        z5yWKyjJvOJdHNdgbA+doO0SHaBhyQAAAABJRU5ErkJggg==
+</value>
+  </data>
+  <data name="pictureBox31.Location" type="System.Drawing.Point, System.Drawing">
+    <value>261, 270</value>
+  </data>
+  <data name="label31.Location" type="System.Drawing.Point, System.Drawing">
+    <value>301, 279</value>
+  </data>
+  <data name="label31.Size" type="System.Drawing.Size, System.Drawing">
+    <value>179, 12</value>
+  </data>
+  <data name="label31.Text" xml:space="preserve">
+    <value>Repair welding pit station OK</value>
+  </data>
+  <data name="pictureBox32.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAQVJREFUOE+V
+        kj1uAjEQhV3ENhQ0SEgp1vZ2kdIjpBwhRbqUSByBhhpaCrr0SUWxR0gD4gxZbGuLLUKbKvQwRiOtWYa/
+        T3rNzHtPI9mMwmved1pkoNJq8WeVmIcZri8DoSloRwnKJmijsYp/UMFYXosx2o9xT6wFhk09QGj7m7Am
+        xipg8V4znpU38hVjFeE0ykzKyBHGKpySb6SZUJ7wHsaOgaf6pgKx4NJPtJ9izcMLmP7roUilTRsp2mnW
+        Wg6J4EHwzAO0nad4ZB0qDKf/oOU6TvHFSQnMcH2dPGHt8G1jFVo84/o2wr+IdXcBnl5aI5dQ8IXj2/GG
+        z5yWKyjJvOJdHNdgbA+doO0SHaBhyQAAAABJRU5ErkJggg==
+</value>
+  </data>
+  <data name="label32.Font" type="System.Drawing.Font, System.Drawing">
+    <value>宋体, 8.25pt</value>
+  </data>
+  <data name="label32.Location" type="System.Drawing.Point, System.Drawing">
+    <value>52, 280</value>
+  </data>
+  <data name="label32.Size" type="System.Drawing.Size, System.Drawing">
+    <value>209, 11</value>
+  </data>
+  <data name="label32.Text" xml:space="preserve">
+    <value>Repair welding pit station trigger</value>
+  </data>
+  <data name="label29.Location" type="System.Drawing.Point, System.Drawing">
+    <value>752, 279</value>
+  </data>
+  <data name="label29.Size" type="System.Drawing.Size, System.Drawing">
+    <value>221, 12</value>
+  </data>
+  <data name="label29.Text" xml:space="preserve">
+    <value>Repair welding is triggered outbound</value>
+  </data>
+  <data name="pictureBox27.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAQVJREFUOE+V
+        kj1uAjEQhV3ENhQ0SEgp1vZ2kdIjpBwhRbqUSByBhhpaCrr0SUWxR0gD4gxZbGuLLUKbKvQwRiOtWYa/
+        T3rNzHtPI9mMwmved1pkoNJq8WeVmIcZri8DoSloRwnKJmijsYp/UMFYXosx2o9xT6wFhk09QGj7m7Am
+        xipg8V4znpU38hVjFeE0ykzKyBHGKpySb6SZUJ7wHsaOgaf6pgKx4NJPtJ9izcMLmP7roUilTRsp2mnW
+        Wg6J4EHwzAO0nad4ZB0qDKf/oOU6TvHFSQnMcH2dPGHt8G1jFVo84/o2wr+IdXcBnl5aI5dQ8IXj2/GG
+        z5yWKyjJvOJdHNdgbA+doO0SHaBhyQAAAABJRU5ErkJggg==
+</value>
+  </data>
+  <data name="pictureBox27.Location" type="System.Drawing.Point, System.Drawing">
+    <value>1174, 270</value>
+  </data>
+  <data name="label28.Location" type="System.Drawing.Point, System.Drawing">
+    <value>1013, 279</value>
+  </data>
+  <data name="label28.Size" type="System.Drawing.Size, System.Drawing">
+    <value>161, 12</value>
+  </data>
+  <data name="label28.Text" xml:space="preserve">
+    <value>Repair welding outbound OK</value>
+  </data>
+  <data name="pictureBox28.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAQVJREFUOE+V
+        kj1uAjEQhV3ENhQ0SEgp1vZ2kdIjpBwhRbqUSByBhhpaCrr0SUWxR0gD4gxZbGuLLUKbKvQwRiOtWYa/
+        T3rNzHtPI9mMwmved1pkoNJq8WeVmIcZri8DoSloRwnKJmijsYp/UMFYXosx2o9xT6wFhk09QGj7m7Am
+        xipg8V4znpU38hVjFeE0ykzKyBHGKpySb6SZUJ7wHsaOgaf6pgKx4NJPtJ9izcMLmP7roUilTRsp2mnW
+        Wg6J4EHwzAO0nad4ZB0qDKf/oOU6TvHFSQnMcH2dPGHt8G1jFVo84/o2wr+IdXcBnl5aI5dQ8IXj2/GG
+        z5yWKyjJvOJdHNdgbA+doO0SHaBhyQAAAABJRU5ErkJggg==
+</value>
+  </data>
+  <data name="pictureBox28.Location" type="System.Drawing.Point, System.Drawing">
+    <value>973, 270</value>
+  </data>
+  <data name="label27.Location" type="System.Drawing.Point, System.Drawing">
+    <value>1214, 279</value>
+  </data>
+  <data name="label27.Size" type="System.Drawing.Size, System.Drawing">
+    <value>161, 12</value>
+  </data>
+  <data name="label27.Text" xml:space="preserve">
+    <value>Repair welding outbound NG</value>
+  </data>
+  <data name="pictureBox29.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAQVJREFUOE+V
+        kj1uAjEQhV3ENhQ0SEgp1vZ2kdIjpBwhRbqUSByBhhpaCrr0SUWxR0gD4gxZbGuLLUKbKvQwRiOtWYa/
+        T3rNzHtPI9mMwmved1pkoNJq8WeVmIcZri8DoSloRwnKJmijsYp/UMFYXosx2o9xT6wFhk09QGj7m7Am
+        xipg8V4znpU38hVjFeE0ykzKyBHGKpySb6SZUJ7wHsaOgaf6pgKx4NJPtJ9izcMLmP7roUilTRsp2mnW
+        Wg6J4EHwzAO0nad4ZB0qDKf/oOU6TvHFSQnMcH2dPGHt8G1jFVo84/o2wr+IdXcBnl5aI5dQ8IXj2/GG
+        z5yWKyjJvOJdHNdgbA+doO0SHaBhyQAAAABJRU5ErkJggg==
+</value>
+  </data>
+  <data name="pictureBox29.Location" type="System.Drawing.Point, System.Drawing">
+    <value>712, 270</value>
+  </data>
+  <data name="pictureBox33.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAQVJREFUOE+V
+        kj1uAjEQhV3ENhQ0SEgp1vZ2kdIjpBwhRbqUSByBhhpaCrr0SUWxR0gD4gxZbGuLLUKbKvQwRiOtWYa/
+        T3rNzHtPI9mMwmved1pkoNJq8WeVmIcZri8DoSloRwnKJmijsYp/UMFYXosx2o9xT6wFhk09QGj7m7Am
+        xipg8V4znpU38hVjFeE0ykzKyBHGKpySb6SZUJ7wHsaOgaf6pgKx4NJPtJ9izcMLmP7roUilTRsp2mnW
+        Wg6J4EHwzAO0nad4ZB0qDKf/oOU6TvHFSQnMcH2dPGHt8G1jFVo84/o2wr+IdXcBnl5aI5dQ8IXj2/GG
+        z5yWKyjJvOJdHNdgbA+doO0SHaBhyQAAAABJRU5ErkJggg==
+</value>
+  </data>
+  <data name="pictureBox33.Location" type="System.Drawing.Point, System.Drawing">
+    <value>481, 319</value>
+  </data>
+  <data name="label33.Location" type="System.Drawing.Point, System.Drawing">
+    <value>521, 328</value>
+  </data>
+  <data name="label33.Size" type="System.Drawing.Size, System.Drawing">
+    <value>101, 12</value>
+  </data>
+  <data name="label33.Text" xml:space="preserve">
+    <value>First article NG</value>
+  </data>
+  <data name="pictureBox34.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAQVJREFUOE+V
+        kj1uAjEQhV3ENhQ0SEgp1vZ2kdIjpBwhRbqUSByBhhpaCrr0SUWxR0gD4gxZbGuLLUKbKvQwRiOtWYa/
+        T3rNzHtPI9mMwmved1pkoNJq8WeVmIcZri8DoSloRwnKJmijsYp/UMFYXosx2o9xT6wFhk09QGj7m7Am
+        xipg8V4znpU38hVjFeE0ykzKyBHGKpySb6SZUJ7wHsaOgaf6pgKx4NJPtJ9izcMLmP7roUilTRsp2mnW
+        Wg6J4EHwzAO0nad4ZB0qDKf/oOU6TvHFSQnMcH2dPGHt8G1jFVo84/o2wr+IdXcBnl5aI5dQ8IXj2/GG
+        z5yWKyjJvOJdHNdgbA+doO0SHaBhyQAAAABJRU5ErkJggg==
+</value>
+  </data>
+  <data name="pictureBox34.Location" type="System.Drawing.Point, System.Drawing">
+    <value>261, 319</value>
+  </data>
+  <data name="label34.Location" type="System.Drawing.Point, System.Drawing">
+    <value>301, 328</value>
+  </data>
+  <data name="label34.Size" type="System.Drawing.Size, System.Drawing">
+    <value>101, 12</value>
+  </data>
+  <data name="label34.Text" xml:space="preserve">
+    <value>First article OK</value>
+  </data>
+  <data name="pictureBox35.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAQVJREFUOE+V
+        kj1uAjEQhV3ENhQ0SEgp1vZ2kdIjpBwhRbqUSByBhhpaCrr0SUWxR0gD4gxZbGuLLUKbKvQwRiOtWYa/
+        T3rNzHtPI9mMwmved1pkoNJq8WeVmIcZri8DoSloRwnKJmijsYp/UMFYXosx2o9xT6wFhk09QGj7m7Am
+        xipg8V4znpU38hVjFeE0ykzKyBHGKpySb6SZUJ7wHsaOgaf6pgKx4NJPtJ9izcMLmP7roUilTRsp2mnW
+        Wg6J4EHwzAO0nad4ZB0qDKf/oOU6TvHFSQnMcH2dPGHt8G1jFVo84/o2wr+IdXcBnl5aI5dQ8IXj2/GG
+        z5yWKyjJvOJdHNdgbA+doO0SHaBhyQAAAABJRU5ErkJggg==
+</value>
+  </data>
+  <data name="label35.Size" type="System.Drawing.Size, System.Drawing">
+    <value>131, 12</value>
+  </data>
+  <data name="label35.Text" xml:space="preserve">
+    <value>First article trigger</value>
+  </data>
+  <data name="pictureBox36.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAQVJREFUOE+V
+        kj1uAjEQhV3ENhQ0SEgp1vZ2kdIjpBwhRbqUSByBhhpaCrr0SUWxR0gD4gxZbGuLLUKbKvQwRiOtWYa/
+        T3rNzHtPI9mMwmved1pkoNJq8WeVmIcZri8DoSloRwnKJmijsYp/UMFYXosx2o9xT6wFhk09QGj7m7Am
+        xipg8V4znpU38hVjFeE0ykzKyBHGKpySb6SZUJ7wHsaOgaf6pgKx4NJPtJ9izcMLmP7roUilTRsp2mnW
+        Wg6J4EHwzAO0nad4ZB0qDKf/oOU6TvHFSQnMcH2dPGHt8G1jFVo84/o2wr+IdXcBnl5aI5dQ8IXj2/GG
+        z5yWKyjJvOJdHNdgbA+doO0SHaBhyQAAAABJRU5ErkJggg==
+</value>
+  </data>
+  <data name="pictureBox36.Location" type="System.Drawing.Point, System.Drawing">
+    <value>1174, 319</value>
+  </data>
+  <data name="label36.Location" type="System.Drawing.Point, System.Drawing">
+    <value>1214, 328</value>
+  </data>
+  <data name="label36.Size" type="System.Drawing.Size, System.Drawing">
+    <value>83, 12</value>
+  </data>
+  <data name="label36.Text" xml:space="preserve">
+    <value>backflow 1 NG</value>
+  </data>
+  <data name="pictureBox37.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAQVJREFUOE+V
+        kj1uAjEQhV3ENhQ0SEgp1vZ2kdIjpBwhRbqUSByBhhpaCrr0SUWxR0gD4gxZbGuLLUKbKvQwRiOtWYa/
+        T3rNzHtPI9mMwmved1pkoNJq8WeVmIcZri8DoSloRwnKJmijsYp/UMFYXosx2o9xT6wFhk09QGj7m7Am
+        xipg8V4znpU38hVjFeE0ykzKyBHGKpySb6SZUJ7wHsaOgaf6pgKx4NJPtJ9izcMLmP7roUilTRsp2mnW
+        Wg6J4EHwzAO0nad4ZB0qDKf/oOU6TvHFSQnMcH2dPGHt8G1jFVo84/o2wr+IdXcBnl5aI5dQ8IXj2/GG
+        z5yWKyjJvOJdHNdgbA+doO0SHaBhyQAAAABJRU5ErkJggg==
+</value>
+  </data>
+  <data name="pictureBox37.Location" type="System.Drawing.Point, System.Drawing">
+    <value>973, 319</value>
+  </data>
+  <data name="label37.Location" type="System.Drawing.Point, System.Drawing">
+    <value>1013, 328</value>
+  </data>
+  <data name="label37.Size" type="System.Drawing.Size, System.Drawing">
+    <value>83, 12</value>
+  </data>
+  <data name="label37.Text" xml:space="preserve">
+    <value>backflow 1 OK</value>
+  </data>
+  <data name="pictureBox38.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAQVJREFUOE+V
+        kj1uAjEQhV3ENhQ0SEgp1vZ2kdIjpBwhRbqUSByBhhpaCrr0SUWxR0gD4gxZbGuLLUKbKvQwRiOtWYa/
+        T3rNzHtPI9mMwmved1pkoNJq8WeVmIcZri8DoSloRwnKJmijsYp/UMFYXosx2o9xT6wFhk09QGj7m7Am
+        xipg8V4znpU38hVjFeE0ykzKyBHGKpySb6SZUJ7wHsaOgaf6pgKx4NJPtJ9izcMLmP7roUilTRsp2mnW
+        Wg6J4EHwzAO0nad4ZB0qDKf/oOU6TvHFSQnMcH2dPGHt8G1jFVo84/o2wr+IdXcBnl5aI5dQ8IXj2/GG
+        z5yWKyjJvOJdHNdgbA+doO0SHaBhyQAAAABJRU5ErkJggg==
+</value>
+  </data>
+  <data name="pictureBox38.Location" type="System.Drawing.Point, System.Drawing">
+    <value>712, 319</value>
+  </data>
+  <data name="label38.Location" type="System.Drawing.Point, System.Drawing">
+    <value>752, 328</value>
+  </data>
+  <data name="label38.Size" type="System.Drawing.Size, System.Drawing">
+    <value>113, 12</value>
+  </data>
+  <data name="label38.Text" xml:space="preserve">
+    <value>backflow 1 trigger</value>
+  </data>
+  <data name="pictureBox39.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAQVJREFUOE+V
+        kj1uAjEQhV3ENhQ0SEgp1vZ2kdIjpBwhRbqUSByBhhpaCrr0SUWxR0gD4gxZbGuLLUKbKvQwRiOtWYa/
+        T3rNzHtPI9mMwmved1pkoNJq8WeVmIcZri8DoSloRwnKJmijsYp/UMFYXosx2o9xT6wFhk09QGj7m7Am
+        xipg8V4znpU38hVjFeE0ykzKyBHGKpySb6SZUJ7wHsaOgaf6pgKx4NJPtJ9izcMLmP7roUilTRsp2mnW
+        Wg6J4EHwzAO0nad4ZB0qDKf/oOU6TvHFSQnMcH2dPGHt8G1jFVo84/o2wr+IdXcBnl5aI5dQ8IXj2/GG
+        z5yWKyjJvOJdHNdgbA+doO0SHaBhyQAAAABJRU5ErkJggg==
+</value>
+  </data>
+  <data name="pictureBox39.Location" type="System.Drawing.Point, System.Drawing">
+    <value>481, 366</value>
+  </data>
+  <data name="label39.Location" type="System.Drawing.Point, System.Drawing">
+    <value>521, 375</value>
+  </data>
+  <data name="label39.Size" type="System.Drawing.Size, System.Drawing">
+    <value>83, 12</value>
+  </data>
+  <data name="label39.Text" xml:space="preserve">
+    <value>backflow 2 NG</value>
+  </data>
+  <data name="pictureBox40.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAQVJREFUOE+V
+        kj1uAjEQhV3ENhQ0SEgp1vZ2kdIjpBwhRbqUSByBhhpaCrr0SUWxR0gD4gxZbGuLLUKbKvQwRiOtWYa/
+        T3rNzHtPI9mMwmved1pkoNJq8WeVmIcZri8DoSloRwnKJmijsYp/UMFYXosx2o9xT6wFhk09QGj7m7Am
+        xipg8V4znpU38hVjFeE0ykzKyBHGKpySb6SZUJ7wHsaOgaf6pgKx4NJPtJ9izcMLmP7roUilTRsp2mnW
+        Wg6J4EHwzAO0nad4ZB0qDKf/oOU6TvHFSQnMcH2dPGHt8G1jFVo84/o2wr+IdXcBnl5aI5dQ8IXj2/GG
+        z5yWKyjJvOJdHNdgbA+doO0SHaBhyQAAAABJRU5ErkJggg==
+</value>
+  </data>
+  <data name="pictureBox40.Location" type="System.Drawing.Point, System.Drawing">
+    <value>261, 366</value>
+  </data>
+  <data name="label40.Location" type="System.Drawing.Point, System.Drawing">
+    <value>301, 375</value>
+  </data>
+  <data name="label40.Size" type="System.Drawing.Size, System.Drawing">
+    <value>83, 12</value>
+  </data>
+  <data name="label40.Text" xml:space="preserve">
+    <value>backflow 2 OK</value>
+  </data>
+  <data name="pictureBox41.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAQVJREFUOE+V
+        kj1uAjEQhV3ENhQ0SEgp1vZ2kdIjpBwhRbqUSByBhhpaCrr0SUWxR0gD4gxZbGuLLUKbKvQwRiOtWYa/
+        T3rNzHtPI9mMwmved1pkoNJq8WeVmIcZri8DoSloRwnKJmijsYp/UMFYXosx2o9xT6wFhk09QGj7m7Am
+        xipg8V4znpU38hVjFeE0ykzKyBHGKpySb6SZUJ7wHsaOgaf6pgKx4NJPtJ9izcMLmP7roUilTRsp2mnW
+        Wg6J4EHwzAO0nad4ZB0qDKf/oOU6TvHFSQnMcH2dPGHt8G1jFVo84/o2wr+IdXcBnl5aI5dQ8IXj2/GG
+        z5yWKyjJvOJdHNdgbA+doO0SHaBhyQAAAABJRU5ErkJggg==
+</value>
+  </data>
+  <data name="label41.Size" type="System.Drawing.Size, System.Drawing">
+    <value>113, 12</value>
+  </data>
+  <data name="label41.Text" xml:space="preserve">
+    <value>backflow 2 trigger</value>
+  </data>
+  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
+    <value>1376, 418</value>
+  </data>
+</root>
