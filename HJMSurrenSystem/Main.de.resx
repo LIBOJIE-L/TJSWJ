@@ -193,6 +193,9 @@
   <data name="tabPage3.Text" xml:space="preserve">
     <value>Seitlich.</value>
   </data>
+  <data name="historyTabPage.Text" xml:space="preserve">
+    <value>Verlaufsdaten</value>
+  </data>
   <data name="tabPage2.Text" xml:space="preserve">
     <value>Lokale Daten</value>
   </data>
@@ -311,7 +314,7 @@
     <value>535, 40</value>
   </data>
   <data name="bSB焊接ToolStripMenuItem.Text" xml:space="preserve">
-    <value>BSB Schweißen</value>
+    <value>Klebeprüfung</value>
   </data>
   <data name="镍片焊接ToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>535, 40</value>

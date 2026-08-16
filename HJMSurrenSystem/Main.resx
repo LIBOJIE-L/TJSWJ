@@ -147,6 +147,279 @@
   <data name="&gt;&gt;dataGridView1.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
+  <data name="scanInfoLayout.ColumnCount" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="scanInputLayout.ColumnCount" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="scanBarcodeLabel.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Right</value>
+  </data>
+  <data name="scanBarcodeLabel.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="scanBarcodeLabel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>58, 47</value>
+  </data>
+  <data name="scanBarcodeLabel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>82, 24</value>
+  </data>
+  <data name="scanBarcodeLabel.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="scanBarcodeLabel.Text" xml:space="preserve">
+    <value>条码：</value>
+  </data>
+  <data name="&gt;&gt;scanBarcodeLabel.Name" xml:space="preserve">
+    <value>scanBarcodeLabel</value>
+  </data>
+  <data name="&gt;&gt;scanBarcodeLabel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;scanBarcodeLabel.Parent" xml:space="preserve">
+    <value>scanInputLayout</value>
+  </data>
+  <data name="&gt;&gt;scanBarcodeLabel.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="scanBarcodeTextBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left, Right</value>
+  </data>
+  <data name="scanBarcodeTextBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>153, 41</value>
+  </data>
+  <data name="scanBarcodeTextBox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>10, 3, 10, 3</value>
+  </data>
+  <data name="scanBarcodeTextBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>209, 35</value>
+  </data>
+  <data name="scanBarcodeTextBox.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;scanBarcodeTextBox.Name" xml:space="preserve">
+    <value>scanBarcodeTextBox</value>
+  </data>
+  <data name="&gt;&gt;scanBarcodeTextBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;scanBarcodeTextBox.Parent" xml:space="preserve">
+    <value>scanInputLayout</value>
+  </data>
+  <data name="&gt;&gt;scanBarcodeTextBox.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="scanBarcodeLengthLabel.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Right</value>
+  </data>
+  <data name="scanBarcodeLengthLabel.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="scanBarcodeLengthLabel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>58, 105</value>
+  </data>
+  <data name="scanBarcodeLengthLabel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>82, 48</value>
+  </data>
+  <data name="scanBarcodeLengthLabel.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="scanBarcodeLengthLabel.Text" xml:space="preserve">
+    <value>条码长度：</value>
+  </data>
+  <data name="&gt;&gt;scanBarcodeLengthLabel.Name" xml:space="preserve">
+    <value>scanBarcodeLengthLabel</value>
+  </data>
+  <data name="&gt;&gt;scanBarcodeLengthLabel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;scanBarcodeLengthLabel.Parent" xml:space="preserve">
+    <value>scanInputLayout</value>
+  </data>
+  <data name="&gt;&gt;scanBarcodeLengthLabel.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="scanBarcodeLengthComboBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left, Right</value>
+  </data>
+  <data name="scanBarcodeLengthComboBox.IntegralHeight" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="scanBarcodeLengthComboBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>153, 113</value>
+  </data>
+  <data name="scanBarcodeLengthComboBox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>10, 3, 10, 3</value>
+  </data>
+  <data name="scanBarcodeLengthComboBox.MaxDropDownItems" type="System.Int32, mscorlib">
+    <value>12</value>
+  </data>
+  <data name="scanBarcodeLengthComboBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>209, 32</value>
+  </data>
+  <data name="scanBarcodeLengthComboBox.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;scanBarcodeLengthComboBox.Name" xml:space="preserve">
+    <value>scanBarcodeLengthComboBox</value>
+  </data>
+  <data name="&gt;&gt;scanBarcodeLengthComboBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;scanBarcodeLengthComboBox.Parent" xml:space="preserve">
+    <value>scanInputLayout</value>
+  </data>
+  <data name="&gt;&gt;scanBarcodeLengthComboBox.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="scanInputLayout.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="scanInputLayout.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="scanInputLayout.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>18, 24, 18, 0</value>
+  </data>
+  <data name="scanInputLayout.RowCount" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="scanInputLayout.Size" type="System.Drawing.Size, System.Drawing">
+    <value>390, 231</value>
+  </data>
+  <data name="scanInputLayout.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;scanInputLayout.Name" xml:space="preserve">
+    <value>scanInputLayout</value>
+  </data>
+  <data name="&gt;&gt;scanInputLayout.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;scanInputLayout.Parent" xml:space="preserve">
+    <value>scanInputPanel</value>
+  </data>
+  <data name="&gt;&gt;scanInputLayout.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="scanInputLayout.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="scanBarcodeLabel" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="scanBarcodeTextBox" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="scanBarcodeLengthLabel" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="scanBarcodeLengthComboBox" Row="1" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Absolute,125,Percent,100" /&gt;&lt;Rows Styles="Absolute,70,Absolute,70,Percent,100" /&gt;&lt;/TableLayoutSettings&gt;</value>
+  </data>
+  <data name="scanInputPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="scanInputPanel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 8</value>
+  </data>
+  <data name="scanInputPanel.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 8, 0</value>
+  </data>
+  <data name="scanInputPanel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>392, 233</value>
+  </data>
+  <data name="scanInputPanel.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;scanInputPanel.Name" xml:space="preserve">
+    <value>scanInputPanel</value>
+  </data>
+  <data name="&gt;&gt;scanInputPanel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;scanInputPanel.Parent" xml:space="preserve">
+    <value>scanInfoLayout</value>
+  </data>
+  <data name="&gt;&gt;scanInputPanel.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="scanSequenceColumn.HeaderText" xml:space="preserve">
+    <value>序号</value>
+  </data>
+  <data name="scanSequenceColumn.MinimumWidth" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="scanBarcodeColumn.HeaderText" xml:space="preserve">
+    <value>条码</value>
+  </data>
+  <data name="scanBarcodeColumn.MinimumWidth" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="scanResultColumn.HeaderText" xml:space="preserve">
+    <value>结果</value>
+  </data>
+  <data name="scanResultColumn.MinimumWidth" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="scanTimeColumn.HeaderText" xml:space="preserve">
+    <value>时间</value>
+  </data>
+  <data name="scanTimeColumn.MinimumWidth" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="scanResultGrid.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="scanResultGrid.Location" type="System.Drawing.Point, System.Drawing">
+    <value>416, 8</value>
+  </data>
+  <data name="scanResultGrid.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>8, 0, 0, 0</value>
+  </data>
+  <data name="scanResultGrid.RowHeadersWidth" type="System.Int32, mscorlib">
+    <value>82</value>
+  </data>
+  <data name="scanResultGrid.Size" type="System.Drawing.Size, System.Drawing">
+    <value>645, 233</value>
+  </data>
+  <data name="scanResultGrid.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;scanResultGrid.Name" xml:space="preserve">
+    <value>scanResultGrid</value>
+  </data>
+  <data name="&gt;&gt;scanResultGrid.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridView, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;scanResultGrid.Parent" xml:space="preserve">
+    <value>scanInfoLayout</value>
+  </data>
+  <data name="&gt;&gt;scanResultGrid.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="scanInfoLayout.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="scanInfoLayout.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 31</value>
+  </data>
+  <data name="scanInfoLayout.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>8, 8, 8, 8</value>
+  </data>
+  <data name="scanInfoLayout.RowCount" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="scanInfoLayout.Size" type="System.Drawing.Size, System.Drawing">
+    <value>1069, 249</value>
+  </data>
+  <data name="scanInfoLayout.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;scanInfoLayout.Name" xml:space="preserve">
+    <value>scanInfoLayout</value>
+  </data>
+  <data name="&gt;&gt;scanInfoLayout.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;scanInfoLayout.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="&gt;&gt;scanInfoLayout.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="scanInfoLayout.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="scanInputPanel" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="scanResultGrid" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,38,Percent,62" /&gt;&lt;Rows Styles="Percent,100" /&gt;&lt;/TableLayoutSettings&gt;</value>
+  </data>
   <data name="textBox3.Location" type="System.Drawing.Point, System.Drawing">
     <value>632, 34</value>
   </data>
@@ -175,7 +448,7 @@
     <value>groupBox2</value>
   </data>
   <data name="&gt;&gt;textBox3.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="groupBox2.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Bottom</value>
@@ -191,24 +464,6 @@
   </data>
   <data name="groupBox2.Text" xml:space="preserve">
     <value>扫码信息</value>
-  </data>
-  <data name="scanBarcodeLabel.Text" xml:space="preserve">
-    <value>条码：</value>
-  </data>
-  <data name="scanBarcodeLengthLabel.Text" xml:space="preserve">
-    <value>条码长度：</value>
-  </data>
-  <data name="scanSequenceColumn.HeaderText" xml:space="preserve">
-    <value>序号</value>
-  </data>
-  <data name="scanBarcodeColumn.HeaderText" xml:space="preserve">
-    <value>条码</value>
-  </data>
-  <data name="scanResultColumn.HeaderText" xml:space="preserve">
-    <value>结果</value>
-  </data>
-  <data name="scanTimeColumn.HeaderText" xml:space="preserve">
-    <value>时间</value>
   </data>
   <data name="&gt;&gt;groupBox2.Name" xml:space="preserve">
     <value>groupBox2</value>
@@ -788,6 +1043,36 @@
   </data>
   <data name="&gt;&gt;tabPage3.ZOrder" xml:space="preserve">
     <value>2</value>
+  </data>
+  <data name="historyTabPage.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 39</value>
+  </data>
+  <data name="historyTabPage.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 2, 2, 2</value>
+  </data>
+  <data name="historyTabPage.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 2, 2, 2</value>
+  </data>
+  <data name="historyTabPage.Size" type="System.Drawing.Size, System.Drawing">
+    <value>1346, 620</value>
+  </data>
+  <data name="historyTabPage.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="historyTabPage.Text" xml:space="preserve">
+    <value>历史数据</value>
+  </data>
+  <data name="&gt;&gt;historyTabPage.Name" xml:space="preserve">
+    <value>historyTabPage</value>
+  </data>
+  <data name="&gt;&gt;historyTabPage.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;historyTabPage.Parent" xml:space="preserve">
+    <value>tabControl2</value>
+  </data>
+  <data name="&gt;&gt;historyTabPage.ZOrder" xml:space="preserve">
+    <value>3</value>
   </data>
   <data name="tabControl2.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -1630,7 +1915,7 @@
     <value>267, 44</value>
   </data>
   <data name="bSB焊接ToolStripMenuItem.Text" xml:space="preserve">
-    <value>BSB焊接</value>
+    <value>涂胶检查</value>
   </data>
   <data name="镍片焊接ToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>267, 44</value>
@@ -1729,31 +2014,43 @@
     <value>False</value>
   </data>
   <data name="进站配置ToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>339, 44</value>
+    <value>398, 44</value>
   </data>
   <data name="进站配置ToolStripMenuItem.Text" xml:space="preserve">
     <value>进站配置</value>
   </data>
+  <data name="贴纸PN库存校验配置ToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>398, 44</value>
+  </data>
+  <data name="贴纸PN库存校验配置ToolStripMenuItem.Text" xml:space="preserve">
+    <value>贴纸PN及库存校验配置</value>
+  </data>
+  <data name="组装物料配置ToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>398, 44</value>
+  </data>
+  <data name="组装物料配置ToolStripMenuItem.Text" xml:space="preserve">
+    <value>组装物料配置</value>
+  </data>
   <data name="出站配置ToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>339, 44</value>
+    <value>398, 44</value>
   </data>
   <data name="出站配置ToolStripMenuItem.Text" xml:space="preserve">
     <value>出站配置</value>
   </data>
   <data name="首件配置ToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>339, 44</value>
+    <value>398, 44</value>
   </data>
   <data name="首件配置ToolStripMenuItem.Text" xml:space="preserve">
     <value>首件配置</value>
   </data>
   <data name="出站参数表ToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>339, 44</value>
+    <value>398, 44</value>
   </data>
   <data name="出站参数表ToolStripMenuItem.Text" xml:space="preserve">
     <value>上传参数表</value>
   </data>
   <data name="电芯校验配置ToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>339, 44</value>
+    <value>398, 44</value>
   </data>
   <data name="电芯校验配置ToolStripMenuItem.Text" xml:space="preserve">
     <value>电芯校验配置</value>
@@ -1762,7 +2059,7 @@
     <value>False</value>
   </data>
   <data name="侧板出站上传参数ToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>339, 44</value>
+    <value>398, 44</value>
   </data>
   <data name="侧板出站上传参数ToolStripMenuItem.Text" xml:space="preserve">
     <value>侧板出站上传参数</value>
@@ -2358,7 +2655,31 @@
     <value>CenterScreen</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>追溯软件 V1.1</value>
+    <value>上位机软件 V1.1</value>
+  </data>
+  <data name="&gt;&gt;scanSequenceColumn.Name" xml:space="preserve">
+    <value>scanSequenceColumn</value>
+  </data>
+  <data name="&gt;&gt;scanSequenceColumn.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;scanBarcodeColumn.Name" xml:space="preserve">
+    <value>scanBarcodeColumn</value>
+  </data>
+  <data name="&gt;&gt;scanBarcodeColumn.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;scanResultColumn.Name" xml:space="preserve">
+    <value>scanResultColumn</value>
+  </data>
+  <data name="&gt;&gt;scanResultColumn.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;scanTimeColumn.Name" xml:space="preserve">
+    <value>scanTimeColumn</value>
+  </data>
+  <data name="&gt;&gt;scanTimeColumn.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;修改数据ToolStripMenuItem.Name" xml:space="preserve">
     <value>修改数据ToolStripMenuItem</value>
@@ -2526,6 +2847,18 @@
     <value>进站配置ToolStripMenuItem</value>
   </data>
   <data name="&gt;&gt;进站配置ToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;贴纸PN库存校验配置ToolStripMenuItem.Name" xml:space="preserve">
+    <value>贴纸PN库存校验配置ToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;贴纸PN库存校验配置ToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;组装物料配置ToolStripMenuItem.Name" xml:space="preserve">
+    <value>组装物料配置ToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;组装物料配置ToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;出站配置ToolStripMenuItem.Name" xml:space="preserve">

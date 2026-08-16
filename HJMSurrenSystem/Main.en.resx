@@ -193,6 +193,9 @@
   <data name="tabPage3.Text" xml:space="preserve">
     <value>Side plate</value>
   </data>
+  <data name="historyTabPage.Text" xml:space="preserve">
+    <value>History data</value>
+  </data>
   <data name="tabPage2.Text" xml:space="preserve">
     <value>Local data</value>
   </data>
@@ -333,7 +336,7 @@
     <value>436, 40</value>
   </data>
   <data name="bSB焊接ToolStripMenuItem.Text" xml:space="preserve">
-    <value>BSB welding</value>
+    <value>Glue inspection</value>
   </data>
   <data name="镍片焊接ToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>436, 40</value>

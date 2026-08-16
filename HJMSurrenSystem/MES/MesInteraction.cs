@@ -4,11 +4,14 @@ using HJMSurrenSystem.Parameters;
 using MachineIntegrationServiceService;
 using MiFindCustomAndSfcDataServiceService;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 
 namespace HJMSurrenSystem.MES
 {
+    extern alias MiAssembleService;
+
     public class MesInteraction
     {
         Main main;
@@ -145,34 +148,245 @@ namespace HJMSurrenSystem.MES
             return dataCollectForSfcModeProcessSfc.MODE_NONE;
         }
 
-        private string ReadPullInParameter(string parameterName, string fallbackName = null, string defaultValue = "")
+        private static string ReadInterfaceParameter(
+            List<MesPullInParameters> parameters,
+            string parameterName,
+            string defaultValue = "")
         {
-            MesPullInParameters parameter = ResourceHandler.listMesPullInParameters.FirstOrDefault(item =>
-                string.Equals(item.ParametersName, parameterName, StringComparison.OrdinalIgnoreCase));
-            string value = parameter.ParametersPrice;
+            MesPullInParameters parameter = parameters.FirstOrDefault(item =>
+                string.Equals(item.ParametersName, parameterName, StringComparison.Ordinal));
+            return string.IsNullOrWhiteSpace(parameter.ParametersPrice)
+                ? defaultValue
+                : parameter.ParametersPrice.Trim();
+        }
 
-            if (!string.IsNullOrWhiteSpace(value))
+        private static bool ReadBooleanParameter(
+            List<MesPullInParameters> parameters,
+            string parameterName,
+            bool defaultValue)
+        {
+            string value = ReadInterfaceParameter(parameters, parameterName, defaultValue ? "true" : "false");
+            if (value.Equals("true", StringComparison.OrdinalIgnoreCase) ||
+                value.Equals("1", StringComparison.OrdinalIgnoreCase) ||
+                value.Equals("yes", StringComparison.OrdinalIgnoreCase) ||
+                value.Equals("是", StringComparison.OrdinalIgnoreCase))
             {
-                return value.Trim();
+                return true;
             }
 
-            if (!string.IsNullOrEmpty(fallbackName))
+            if (value.Equals("false", StringComparison.OrdinalIgnoreCase) ||
+                value.Equals("0", StringComparison.OrdinalIgnoreCase) ||
+                value.Equals("no", StringComparison.OrdinalIgnoreCase) ||
+                value.Equals("否", StringComparison.OrdinalIgnoreCase))
             {
-                MesPullInParameters fallback = ResourceHandler.listMesPullInParameters.FirstOrDefault(item =>
-                    string.Equals(item.ParametersName, fallbackName, StringComparison.OrdinalIgnoreCase));
-                value = fallback.ParametersPrice;
+                return false;
             }
 
-            return string.IsNullOrWhiteSpace(value) ? defaultValue : value.Trim();
+            throw new InvalidOperationException(parameterName + "必须配置为true或false");
         }
 
         private bool IsBomInventoryCheckEnabled()
         {
-            string enabled = ReadPullInParameter("bomInventoryEnabled", null, "true");
-            return enabled.Equals("true", StringComparison.OrdinalIgnoreCase) ||
-                   enabled.Equals("1", StringComparison.OrdinalIgnoreCase) ||
-                   enabled.Equals("yes", StringComparison.OrdinalIgnoreCase) ||
-                   enabled.Equals("是", StringComparison.OrdinalIgnoreCase);
+            return ReadBooleanParameter(ResourceHandler.listMesBomInventoryParameters, "enabled", true);
+        }
+
+        private bool IsAssembleMaterialEnabled()
+        {
+            return ReadBooleanParameter(ResourceHandler.listMesAssembleMaterialParameters, "enabled", true);
+        }
+
+        private static string ToServiceUrl(string wsdlUrl)
+        {
+            string url = (wsdlUrl ?? "").Trim();
+            int wsdlIndex = url.IndexOf("?wsdl", StringComparison.OrdinalIgnoreCase);
+            return wsdlIndex >= 0 ? url.Substring(0, wsdlIndex) : url;
+        }
+
+        private static CheckBOMInventoryParameter[] ParseBomParameterArray(List<MesPullInParameters> parameters)
+        {
+            string configuredArray = ReadInterfaceParameter(parameters, "parameterArray[]");
+            List<CheckBOMInventoryParameter> result = new List<CheckBOMInventoryParameter>();
+
+            if (!string.IsNullOrWhiteSpace(configuredArray))
+            {
+                foreach (string item in configuredArray.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries))
+                {
+                    string[] parts = item.Split(new[] { '|' }, 3);
+                    if (parts.Length != 3 || parts.Any(string.IsNullOrWhiteSpace))
+                    {
+                        throw new InvalidOperationException("parameterArray[]格式必须为 usage|category|dataField");
+                    }
+
+                    result.Add(new CheckBOMInventoryParameter
+                    {
+                        usage = parts[0].Trim(),
+                        category = parts[1].Trim(),
+                        dataField = parts[2].Trim()
+                    });
+                }
+                return result.ToArray();
+            }
+
+            string[] usages = ReadInterfaceParameter(parameters, "usage")
+                .Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+            string[] categories = ReadInterfaceParameter(parameters, "category")
+                .Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+            string[] dataFields = ReadInterfaceParameter(parameters, "dataField")
+                .Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+            if (usages.Length == 0 || usages.Length != categories.Length || usages.Length != dataFields.Length)
+            {
+                throw new InvalidOperationException("usage、category、dataField的项目数量必须一致且不能为空");
+            }
+
+            for (int i = 0; i < usages.Length; i++)
+            {
+                result.Add(new CheckBOMInventoryParameter
+                {
+                    usage = usages[i].Trim(),
+                    category = categories[i].Trim(),
+                    dataField = dataFields[i].Trim()
+                });
+            }
+            return result.ToArray();
+        }
+
+        private static string ResolveAssemblyValue(string value, string moduleCode)
+        {
+            return (value ?? "").Replace("{SFC}", moduleCode ?? "");
+        }
+
+        private MiAssembleService::miInventoryData[] ParseAssemblyInventoryArray(string configuredValue, string moduleCode)
+        {
+            List<MiAssembleService::miInventoryData> inventoryList = new List<MiAssembleService::miInventoryData>();
+            if (string.IsNullOrWhiteSpace(configuredValue))
+            {
+                return inventoryList.ToArray();
+            }
+
+            foreach (string rawItem in configuredValue.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries))
+            {
+                string[] parts = rawItem.Split(new[] { '|' }, 3);
+                string inventory = ResolveAssemblyValue(parts[0].Trim(), moduleCode);
+                if (string.IsNullOrWhiteSpace(inventory))
+                {
+                    throw new InvalidOperationException("inventoryArray[]中存在空库存号");
+                }
+
+                List<MiAssembleService::AssemblyDataField> fields = new List<MiAssembleService::AssemblyDataField>();
+                if (parts.Length >= 3 && !string.IsNullOrWhiteSpace(parts[2]))
+                {
+                    int sequence = 1;
+                    foreach (string rawField in parts[2].Split(new[] { '&' }, StringSplitOptions.RemoveEmptyEntries))
+                    {
+                        string[] fieldParts = rawField.Split(new[] { '=' }, 2);
+                        if (fieldParts.Length != 2 || string.IsNullOrWhiteSpace(fieldParts[0]))
+                        {
+                            throw new InvalidOperationException("库存属性格式必须为 属性名=属性值");
+                        }
+
+                        fields.Add(new MiAssembleService::AssemblyDataField
+                        {
+                            sequence = sequence++,
+                            sequenceSpecified = true,
+                            attribute = fieldParts[0].Trim(),
+                            value = ResolveAssemblyValue(fieldParts[1].Trim(), moduleCode)
+                        });
+                    }
+                }
+
+                inventoryList.Add(new MiAssembleService::miInventoryData
+                {
+                    inventory = inventory,
+                    qty = parts.Length >= 2 && !string.IsNullOrWhiteSpace(parts[1]) ? parts[1].Trim() : "1",
+                    assemblyDataFields = fields.ToArray()
+                });
+            }
+
+            return inventoryList.ToArray();
+        }
+
+        private MiAssembleService::machineIntegrationParametricData[] ParseAssemblyParameterArray(string configuredValue, string moduleCode)
+        {
+            List<MiAssembleService::machineIntegrationParametricData> parameterList = new List<MiAssembleService::machineIntegrationParametricData>();
+            if (string.IsNullOrWhiteSpace(configuredValue))
+            {
+                return parameterList.ToArray();
+            }
+
+            foreach (string rawItem in configuredValue.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries))
+            {
+                string[] parts = rawItem.Split(new[] { '|' }, 3);
+                if (parts.Length != 3 || string.IsNullOrWhiteSpace(parts[0]))
+                {
+                    throw new InvalidOperationException("parameterArray[]格式必须为 名称|类型|值");
+                }
+
+                MiAssembleService::ParameterDataType dataType;
+                if (!Enum.TryParse(parts[1].Trim(), true, out dataType) || !Enum.IsDefined(typeof(MiAssembleService::ParameterDataType), dataType))
+                {
+                    throw new InvalidOperationException("组装物料DC参数类型仅支持NUMBER、TEXT、FORMULA、BOOLEAN");
+                }
+
+                parameterList.Add(new MiAssembleService::machineIntegrationParametricData
+                {
+                    name = parts[0].Trim(),
+                    dataType = dataType,
+                    value = ResolveAssemblyValue(parts[2].Trim(), moduleCode)
+                });
+            }
+
+            return parameterList.ToArray();
+        }
+
+        private MiAssembleService::nonConfirmCodeArray[] ParseAssemblyNcCodeArray(
+            string ncCodeValue,
+            string hasNcValue,
+            string moduleCode)
+        {
+            List<MiAssembleService::nonConfirmCodeArray> ncCodeList = new List<MiAssembleService::nonConfirmCodeArray>();
+            if (string.IsNullOrWhiteSpace(ncCodeValue))
+            {
+                return ncCodeList.ToArray();
+            }
+
+            string[] ncCodes = ncCodeValue.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+            string[] hasNcValues = (hasNcValue ?? "").Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+            if (ncCodes.Length != hasNcValues.Length)
+            {
+                throw new InvalidOperationException("ncCode与hasNc的项目数量必须一致");
+            }
+
+            for (int i = 0; i < ncCodes.Length; i++)
+            {
+                string hasNcText = hasNcValues[i].Trim();
+                bool hasNc;
+                if (hasNcText.Equals("true", StringComparison.OrdinalIgnoreCase) ||
+                    hasNcText.Equals("1", StringComparison.OrdinalIgnoreCase) ||
+                    hasNcText.Equals("yes", StringComparison.OrdinalIgnoreCase) ||
+                    hasNcText.Equals("是", StringComparison.OrdinalIgnoreCase))
+                {
+                    hasNc = true;
+                }
+                else if (hasNcText.Equals("false", StringComparison.OrdinalIgnoreCase) ||
+                         hasNcText.Equals("0", StringComparison.OrdinalIgnoreCase) ||
+                         hasNcText.Equals("no", StringComparison.OrdinalIgnoreCase) ||
+                         hasNcText.Equals("否", StringComparison.OrdinalIgnoreCase))
+                {
+                    hasNc = false;
+                }
+                else
+                {
+                    throw new InvalidOperationException("hasNc必须配置为true或false");
+                }
+
+                ncCodeList.Add(new MiAssembleService::nonConfirmCodeArray
+                {
+                    ncCode = ResolveAssemblyValue(ncCodes[i].Trim(), moduleCode),
+                    hasNc = hasNc
+                });
+            }
+
+            return ncCodeList.ToArray();
         }
 
         private void FillMesErrorDetails(ResponseData responseData, int code)
@@ -212,60 +426,48 @@ namespace HJMSurrenSystem.MES
 
             try
             {
-                string url = ReadPullInParameter("bomInventoryUrl");
-                string timeoutText = ReadPullInParameter("bomInventoryTimeout", null, "10000");
-                string site = ReadPullInParameter("bomInventorySite", "site");
-                string user = ReadPullInParameter("bomInventoryUser", "user");
-                string operation = ReadPullInParameter("bomInventoryOperation", "operation");
-                string resource = ReadPullInParameter("bomInventoryResource", "resource");
-                string modeCheckOperation = ReadPullInParameter("bomInventoryModeCheckOperation");
+                List<MesPullInParameters> parameters = ResourceHandler.listMesBomInventoryParameters;
+                string url = ToServiceUrl(ReadInterfaceParameter(parameters, "MES WSDL"));
+                string timeoutText = ReadInterfaceParameter(parameters, "TimeOut(ms)", "10000");
+                string site = ReadInterfaceParameter(parameters, "site");
+                string user = ReadInterfaceParameter(parameters, "user");
+                string operation = ReadInterfaceParameter(parameters, "operation");
+                string resource = ReadInterfaceParameter(parameters, "Resource");
+                string modeCheckOperation = ReadInterfaceParameter(parameters, "modeCheckOperation");
+                string sfc = ResolveAssemblyValue(ReadInterfaceParameter(parameters, "sfc", "{SFC}"), moduleCode);
 
                 int timeout;
                 if (!int.TryParse(timeoutText, out timeout) || timeout <= 0)
                 {
-                    throw new InvalidOperationException("bomInventoryTimeout必须是大于0的整数");
+                    throw new InvalidOperationException("TimeOut(ms)必须是大于0的整数");
                 }
 
                 if (string.IsNullOrWhiteSpace(url) || string.IsNullOrWhiteSpace(site) ||
                     string.IsNullOrWhiteSpace(user) || string.IsNullOrWhiteSpace(operation) ||
-                    string.IsNullOrWhiteSpace(resource))
+                    string.IsNullOrWhiteSpace(resource) || string.IsNullOrWhiteSpace(sfc))
                 {
-                    throw new InvalidOperationException("贴纸PN及库存校验的url、site、user、operation、resource不能为空");
+                    throw new InvalidOperationException("贴纸PN及库存校验的MES WSDL、site、user、operation、Resource、sfc不能为空");
                 }
 
                 service.Url = url;
                 service.Timeout = timeout;
                 service.PreAuthenticate = true;
                 service.Credentials = new NetworkCredential(
-                    ReadPullInParameter("bomInventoryUserName", "userName"),
-                    ReadPullInParameter("bomInventoryPassword", "password"));
+                    ReadInterfaceParameter(parameters, "User"),
+                    ReadInterfaceParameter(parameters, "Password"));
 
                 CheckBOMInventoryRequest requestData = new CheckBOMInventoryRequest
                 {
                     site = site,
                     operation = operation,
-                    operationRevision = ReadPullInParameter("bomInventoryOperationRevision", "operationRevision", "#"),
+                    operationRevision = ReadInterfaceParameter(parameters, "operationRevision", "#"),
                     resource = resource,
-                    parameterArray = new[]
-                    {
-                        new CheckBOMInventoryParameter
-                        {
-                            usage = ReadPullInParameter("bomInventoryUsage1", null, "RESOURCE"),
-                            category = ReadPullInParameter("bomInventoryCategory1", null, "RESOURCE"),
-                            dataField = ReadPullInParameter("bomInventoryDataField1", null, "Z_FMA_RES")
-                        },
-                        new CheckBOMInventoryParameter
-                        {
-                            usage = ReadPullInParameter("bomInventoryUsage2", null, "BOM"),
-                            category = ReadPullInParameter("bomInventoryCategory2", null, "RESOURCE"),
-                            dataField = ReadPullInParameter("bomInventoryDataField2", null, "Z_FMA_BOM")
-                        }
-                    },
+                    parameterArray = ParseBomParameterArray(parameters),
                     user = user,
-                    activity = ReadPullInParameter("bomInventoryActivity", "activity", "EAP_WS"),
-                    sfc = moduleCode,
+                    activity = ReadInterfaceParameter(parameters, "activity", "EAP_WS"),
+                    sfc = sfc,
                     modeCheckOperation = string.IsNullOrWhiteSpace(modeCheckOperation) ? null : modeCheckOperation,
-                    modeProcessSFC = ReadPullInParameter("bomInventoryModeProcessSfc", null, "MODE_COMPLETE_SFC_POST_DC")
+                    modeProcessSFC = ReadInterfaceParameter(parameters, "modeProcessSfc", "MODE_COMPLETE_SFC_POST_DC")
                 };
 
                 miCheckBOMInventory request = new miCheckBOMInventory
@@ -328,6 +530,149 @@ namespace HJMSurrenSystem.MES
                     logPath,
                     "贴纸PN及库存校验");
                 main.outDiary("【MES】贴纸PN及库存校验异常：" + ex.Message, "错误");
+                return result;
+            }
+        }
+
+        public ResponseData AssembleMaterial(string moduleCode, bool forceCheck = false)
+        {
+            ResponseData result = new ResponseData
+            {
+                code = -1,
+                sfc = moduleCode,
+                startTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss:fff")
+            };
+            string logPath = ResourceHandler.listSystemParameters[0].MESLogPath + "\\MiAssembleAndCollectDataForSfcServiceService";
+
+            try
+            {
+                if (!forceCheck && !IsAssembleMaterialEnabled())
+                {
+                    result.code = 0;
+                    result.message = "组装物料已停用";
+                    main.outDiary("【MES】组装物料已停用", "信息");
+                    return result;
+                }
+
+                MiAssembleService::MiAssembleAndCollectDataForSfcServiceService service = new MiAssembleService::MiAssembleAndCollectDataForSfcServiceService();
+                List<MesPullInParameters> parameters = ResourceHandler.listMesAssembleMaterialParameters;
+                string url = ToServiceUrl(ReadInterfaceParameter(parameters, "MES WSDL"));
+                string timeoutText = ReadInterfaceParameter(parameters, "TimeOut(ms)", "10000");
+                string site = ReadInterfaceParameter(parameters, "site");
+                string user = ReadInterfaceParameter(parameters, "user");
+                string operation = ReadInterfaceParameter(parameters, "operation");
+                string resource = ReadInterfaceParameter(parameters, "Resource");
+                string dcGroup = ReadInterfaceParameter(parameters, "dcGroup", "*");
+                string sfc = ResolveAssemblyValue(ReadInterfaceParameter(parameters, "sfc", "{SFC}"), moduleCode);
+
+                int timeout;
+                if (!int.TryParse(timeoutText, out timeout) || timeout <= 0)
+                {
+                    throw new InvalidOperationException("TimeOut(ms)必须是大于0的整数");
+                }
+
+                if (string.IsNullOrWhiteSpace(sfc) || string.IsNullOrWhiteSpace(url) ||
+                    string.IsNullOrWhiteSpace(site) || string.IsNullOrWhiteSpace(user) ||
+                    string.IsNullOrWhiteSpace(operation) || string.IsNullOrWhiteSpace(resource) ||
+                    string.IsNullOrWhiteSpace(dcGroup))
+                {
+                    throw new InvalidOperationException("组装物料的MES WSDL、site、user、operation、Resource、dcGroup、sfc不能为空");
+                }
+
+                MiAssembleService::dataCollectForSfcModeProcessSfc modeProcessSfc;
+                string modeText = ReadInterfaceParameter(parameters, "modeProcessSfc", "MODE_NONE");
+                if (!Enum.TryParse(modeText, true, out modeProcessSfc) ||
+                    !Enum.IsDefined(typeof(MiAssembleService::dataCollectForSfcModeProcessSfc), modeProcessSfc))
+                {
+                    throw new InvalidOperationException("modeProcessSfc不是接口支持的过站模式");
+                }
+
+                service.Url = url;
+                service.Timeout = timeout;
+                service.PreAuthenticate = true;
+                service.Credentials = new NetworkCredential(
+                    ReadInterfaceParameter(parameters, "User"),
+                    ReadInterfaceParameter(parameters, "Password"));
+
+                MiAssembleService::assembleAndCollectDataForSfcRequest requestData = new MiAssembleService::assembleAndCollectDataForSfcRequest
+                {
+                    site = site,
+                    sfc = sfc,
+                    dcGroup = dcGroup,
+                    dcGroupRevision = ReadInterfaceParameter(parameters, "dcGroupRevision", "#"),
+                    operation = operation,
+                    operationRevision = ReadInterfaceParameter(parameters, "operationRevision", "#"),
+                    resource = resource,
+                    user = user,
+                    activityId = ReadInterfaceParameter(parameters, "activityId", "EAP_WS"),
+                    modeProcessSFC = modeProcessSfc,
+                    partialAssembly = ReadBooleanParameter(parameters, "partialAssembly", true),
+                    inventoryArray = ParseAssemblyInventoryArray(
+                        ReadInterfaceParameter(parameters, "inventoryArray[]"), moduleCode),
+                    parametricDataArray = ParseAssemblyParameterArray(
+                        ReadInterfaceParameter(parameters, "parameterArray[]"), moduleCode),
+                    ncCodeArray = ParseAssemblyNcCodeArray(
+                        ReadInterfaceParameter(parameters, "ncCode"),
+                        ReadInterfaceParameter(parameters, "hasNc"),
+                        moduleCode),
+                    remark = null
+                };
+
+                MiAssembleService::miAssmebleAndCollectDataForSfc request = new MiAssembleService::miAssmebleAndCollectDataForSfc
+                {
+                    AssembleAndCollectDataForSfcRequest = requestData
+                };
+
+                DataGridViewClass.Write_MESLOG_CSV(new[] { "网址：," + service.Url }, logPath, "组装物料");
+                DataGridViewClass.Write_MESLOG_CSV(new[] { "耗时：," + service.Timeout }, logPath, "组装物料");
+                DataGridViewClass.Write_MESLOG_CSV(new[] { "site：," + requestData.site }, logPath, "组装物料");
+                DataGridViewClass.Write_MESLOG_CSV(new[] { "user：," + requestData.user }, logPath, "组装物料");
+                DataGridViewClass.Write_MESLOG_CSV(new[] { "operation：," + requestData.operation }, logPath, "组装物料");
+                DataGridViewClass.Write_MESLOG_CSV(new[] { "resource：," + requestData.resource }, logPath, "组装物料");
+                DataGridViewClass.Write_MESLOG_CSV(new[] { "dcGroup：," + requestData.dcGroup }, logPath, "组装物料");
+                DataGridViewClass.Write_MESLOG_CSV(new[] { "modeProcessSfc：," + requestData.modeProcessSFC }, logPath, "组装物料");
+                DataGridViewClass.Write_MESLOG_CSV(new[] { "partialAssembly：," + requestData.partialAssembly }, logPath, "组装物料");
+                DataGridViewClass.Write_MESLOG_CSV(new[] { "sfc：," + requestData.sfc }, logPath, "组装物料");
+                DataGridViewClass.Write_MESLOG_CSV(new[] { "inventoryArray数量：," + requestData.inventoryArray.Length }, logPath, "组装物料");
+                DataGridViewClass.Write_MESLOG_CSV(new[] { "parameterArray数量：," + requestData.parametricDataArray.Length }, logPath, "组装物料");
+                DataGridViewClass.Write_MESLOG_CSV(new[] { "ncCodeArray数量：," + requestData.ncCodeArray.Length }, logPath, "组装物料");
+
+                MiAssembleService::miAssmebleAndCollectDataForSfcResponse response = service.miAssmebleAndCollectDataForSfc(request);
+                if (response == null || response.@return == null)
+                {
+                    throw new InvalidOperationException("组装物料接口未返回有效响应");
+                }
+
+                result.code = response.@return.code;
+                result.message = response.@return.message ?? "";
+                result.sfc = string.IsNullOrWhiteSpace(response.@return.sfc) ? requestData.sfc : response.@return.sfc;
+                DataGridViewClass.Write_MESLOG_CSV(
+                    new[] { "从MES收集的数据:,{Code:" + result.code + " Message:" + result.message +
+                            " Sfc:" + result.sfc + " FailedInventory:" + response.@return.failedInventory + "}" },
+                    logPath,
+                    "组装物料");
+
+                if (result.code != 0)
+                {
+                    FillMesErrorDetails(result, result.code);
+                    main.outDiary("【MES】组装物料失败\r\n【MES】Code：" + result.code +
+                                  "\r\n【MES】message:" + result.message, "警告");
+                    return result;
+                }
+
+                main.outDiary("【MES】组装物料成功", "信息");
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.code = 9999;
+                result.message = ex.Message;
+                result.Message = "组装物料接口调用异常";
+                DataGridViewClass.Write_MESLOG_CSV(
+                    new[] { "接口异常：," + ex.Message },
+                    logPath,
+                    "组装物料");
+                main.outDiary("【MES】组装物料异常：" + ex.Message, "错误");
                 return result;
             }
         }

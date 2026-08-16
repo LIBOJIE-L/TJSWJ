@@ -18,52 +18,65 @@ namespace HJMSurrenSystem.Interface_UI
 {
     public partial class MesPullInUI : Form
     {
-        Main main;
-        private readonly bool bomInventoryOnly;
+        private readonly Main main;
+        private readonly List<MesPullInParameters> parameters;
+        private readonly string configFileName;
+        private readonly string exportCsvFileName;
+        private readonly Action ensureDefaults;
 
-        public MesPullInUI(Main main) : this(main, false)
+        public MesPullInUI(Main main) : this(
+            main,
+            ResourceHandler.listMesPullInParameters,
+            "MesPullIn.xml",
+            "MES进站参数配置表.CSV",
+            null,
+            null)
         {
         }
 
-        public MesPullInUI(Main main, bool bomInventoryOnly)
+        public MesPullInUI(
+            Main main,
+            List<MesPullInParameters> parameters,
+            string configFileName,
+            string exportCsvFileName,
+            string windowTitle,
+            Action ensureDefaults)
         {
             InitializeComponent();
             this.main = main;
-            this.bomInventoryOnly = bomInventoryOnly;
+            this.parameters = parameters ?? throw new ArgumentNullException(nameof(parameters));
+            this.configFileName = configFileName;
+            this.exportCsvFileName = exportCsvFileName;
+            this.ensureDefaults = ensureDefaults;
 
-            if (bomInventoryOnly)
+            if (!string.IsNullOrWhiteSpace(windowTitle))
             {
-                Text = "贴纸PN及库存校验配置";
-                can.ReadOnly = true;
-                Column1.ReadOnly = true;
-                button1.Visible = false;
-                button2.Visible = false;
-                button3.Visible = false;
-                button5.Visible = false;
-                main.EnsureBomInventoryParameters();
-                FillParameterGrid();
+                Text = windowTitle;
             }
-        }
 
-        private static bool IsBomInventoryParameter(string parameterName)
-        {
-            return !string.IsNullOrWhiteSpace(parameterName) &&
-                   parameterName.StartsWith("bomInventory", StringComparison.OrdinalIgnoreCase);
+            can.ReadOnly = false;
+            Column1.ReadOnly = false;
+            button1.Visible = true;
+            button2.Visible = true;
+            button3.Visible = true;
+            button5.Visible = true;
+            this.ensureDefaults?.Invoke();
+            FillParameterGrid();
         }
 
         private void FillParameterGrid()
         {
             DataGridViewClass.RemoveAllRow(dataGridView1);
-            foreach (MesPullInParameters item in ResourceHandler.listMesPullInParameters)
+            foreach (MesPullInParameters item in parameters)
             {
-                if (bomInventoryOnly && !IsBomInventoryParameter(item.ParametersName))
-                {
-                    continue;
-                }
-
                 string[] typeStr = { item.ParametersName, item.ParametersExplain, item.ParametersPrice };
                 DataGridViewClass.AddRows(dataGridView1, typeStr, Color.White);
             }
+        }
+
+        public void ReloadGrid()
+        {
+            FillParameterGrid();
         }
 
         public void language()
@@ -127,13 +140,14 @@ namespace HJMSurrenSystem.Interface_UI
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
                     // 判断这个路径下是否存在旧的CSV表头文件
-                    if (File.Exists(dialog.SelectedPath + "/MES进站参数配置表.CSV"))
+                    string exportPath = Path.Combine(dialog.SelectedPath, exportCsvFileName);
+                    if (File.Exists(exportPath))
                     {
-                        File.Delete(dialog.SelectedPath + "/MES进站参数配置表.CSV");
+                        File.Delete(exportPath);
                     }
 
                     // 生成CSV文件
-                    StreamWriter writer = new StreamWriter(new FileStream(dialog.SelectedPath + "/MES进站参数配置表.CSV", FileMode.Append, FileAccess.Write, FileShare.ReadWrite), Encoding.UTF8);
+                    StreamWriter writer = new StreamWriter(new FileStream(exportPath, FileMode.Append, FileAccess.Write, FileShare.ReadWrite), Encoding.UTF8);
                     // 向文件里面写入数据
                     for (int i = 0; i < dataGridView1.Rows.Count; i++)
                     {
@@ -171,23 +185,27 @@ namespace HJMSurrenSystem.Interface_UI
 
         private void button5_Click(object sender, EventArgs e)
         {
-            DataGridViewClass.RemoveIndexRow(dataGridView1, dataGridView1.CurrentRow.Index);
+            if (dataGridView1.CurrentRow != null)
+            {
+                DataGridViewClass.RemoveIndexRow(dataGridView1, dataGridView1.CurrentRow.Index);
+            }
         }
 
         private void button4_Click(object sender, EventArgs e)
         {
-            // 移除所有行
-            DataGridViewClass.RemoveAllRow(dataGridView1);
-            // 重新导入表头
-            XmlHelper xmlHelper = new XmlHelper("xml/" + main.workstationName.Text + "/MesPullIn.xml");
-            bool headerBool = xmlHelper.Read(ref ResourceHandler.listMesPullInParameters);
+            List<MesPullInParameters> loadedParameters = new List<MesPullInParameters>();
+            XmlHelper xmlHelper = new XmlHelper("xml/" + main.workstationName.Text + "/" + configFileName);
+            bool headerBool = xmlHelper.Read(ref loadedParameters);
             if (!headerBool)
             {
-                MessageBox.Show("MES进站参数配置文件读取失败!\nPLCInteractiveAddressFileReadError!\nPLCInteractiveAddress beim Lesen der Sprachdatei!");
+                MessageBox.Show("MES参数配置文件读取失败!\nMES parameter configuration file read failed!");
+                return;
             }
-            main.EnsureBomInventoryParameters();
+
+            parameters.Clear();
+            parameters.AddRange(loadedParameters);
+            ensureDefaults?.Invoke();
             FillParameterGrid();
-            main.RefreshMesPullInParameterGrid();
         }
 
         private void button6_Click(object sender, EventArgs e)
@@ -199,43 +217,35 @@ namespace HJMSurrenSystem.Interface_UI
             {
                 editedParameters.Add(new MesPullInParameters
                 {
-                    ParametersName = Convert.ToString(dataGridView1.Rows[i].Cells[0].Value),
+                    ParametersName = Convert.ToString(dataGridView1.Rows[i].Cells[0].Value).Trim(),
                     ParametersExplain = Convert.ToString(dataGridView1.Rows[i].Cells[1].Value),
                     ParametersPrice = Convert.ToString(dataGridView1.Rows[i].Cells[2].Value)
                 });
             }
 
-            if (bomInventoryOnly)
+            if (editedParameters.Any(item => string.IsNullOrWhiteSpace(item.ParametersName)))
             {
-                foreach (MesPullInParameters parameter in editedParameters)
-                {
-                    int index = ResourceHandler.listMesPullInParameters.FindIndex(item =>
-                        string.Equals(item.ParametersName, parameter.ParametersName, StringComparison.OrdinalIgnoreCase));
-                    if (index >= 0)
-                    {
-                        ResourceHandler.listMesPullInParameters[index] = parameter;
-                    }
-                    else if (IsBomInventoryParameter(parameter.ParametersName))
-                    {
-                        ResourceHandler.listMesPullInParameters.Add(parameter);
-                    }
-                }
+                MessageBox.Show("参数名称不能为空！");
+                return;
             }
-            else
+            if (editedParameters.GroupBy(item => item.ParametersName, StringComparer.Ordinal).Any(group => group.Count() > 1))
             {
-                ResourceHandler.listMesPullInParameters.Clear();
-                ResourceHandler.listMesPullInParameters.AddRange(editedParameters);
-            }
-
-            XmlHelper xmlHelper = new XmlHelper("xml/" + main.workstationName.Text + "/MesPullIn.xml");
-            bool headerBool = xmlHelper.Write(ResourceHandler.listMesPullInParameters);
-            if (!headerBool)
-            {
-                MessageBox.Show("MES进站参数配置文件保存失败!\nPLCInteractiveAddressFileReadError!\nPLCInteractiveAddress beim Lesen der Sprachdatei!");
+                MessageBox.Show("参数名称不能重复，请使用接口中的准确字段名称！");
                 return;
             }
 
-            main.RefreshMesPullInParameterGrid();
+            parameters.Clear();
+            parameters.AddRange(editedParameters);
+
+            XmlHelper xmlHelper = new XmlHelper("xml/" + main.workstationName.Text + "/" + configFileName);
+            bool headerBool = xmlHelper.Write(parameters);
+            if (!headerBool)
+            {
+                MessageBox.Show("MES参数配置文件保存失败!\nMES parameter configuration file save failed!");
+                return;
+            }
+
+            FillParameterGrid();
             MessageBox.Show("配置保存成功！");
         }
 
