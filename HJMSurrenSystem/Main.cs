@@ -61,10 +61,14 @@ namespace HJMSurrenSystem
         {
             languageParameter();
             languageSwitching();
+            // languageSwitching 会重新执行 InitializeComponent，动态页面必须在它之后创建。
+            InitializeHistoryDataPage();
             systemParameter();
             headerParameter();
             PLCInteractiveAddressParameter();
             MesPullInParameter();
+            MesBomInventoryParameter();
+            MesAssembleMaterialParameter();
             MesPullOutParameter();
             MesInitialWorkpieceParameter();
             MesPullOutUploadingParameter();
@@ -76,6 +80,8 @@ namespace HJMSurrenSystem
             DataGridViewClass.DataGridCreateParams(this.dataGridView1);
             DataGridViewClass.DataGridCreateParams(this.dataGridView2);
             DataGridViewClass.DataGridCreateParams(this.dataGridView3);
+
+            InitializeHistoryDataAfterLoad();
 
             BeginInvoke(new Action(() =>
             {
@@ -447,48 +453,267 @@ namespace HJMSurrenSystem
             {
                 MessageBox.Show("MES进站参数读取失败!\nPlcAddressFileReadError!\nPlc adresse beim Lesen der Sprachdatei!");
             }
-            EnsureBomInventoryParameters();
             ResourceHandler.dparamParameters.mesPullInUI = new MesPullInUI(this);
-            foreach (var item in ResourceHandler.listMesPullInParameters)
+        }
+
+        private static void AddInterfaceDefault(
+            List<MesPullInParameters> parameters,
+            string name,
+            string explanation,
+            string value)
+        {
+            if (parameters.Any(item => string.Equals(item.ParametersName, name, StringComparison.Ordinal)))
             {
-                string[] mesPullInUI_Ary = { item.ParametersName, item.ParametersExplain, item.ParametersPrice };
-                DataGridViewClass.AddRows(ResourceHandler.dparamParameters.mesPullInUI.dataGridView1, mesPullInUI_Ary, Color.White);
+                return;
             }
+
+            parameters.Add(new MesPullInParameters
+            {
+                ParametersName = name,
+                ParametersExplain = explanation,
+                ParametersPrice = value
+            });
+        }
+
+        private static string ReadLegacyParameter(string name)
+        {
+            MesPullInParameters parameter = ResourceHandler.listMesPullInParameters.FirstOrDefault(item =>
+                string.Equals(item.ParametersName, name, StringComparison.OrdinalIgnoreCase));
+            return parameter.ParametersPrice ?? "";
+        }
+
+        private static bool SetMigratedParameter(
+            List<MesPullInParameters> parameters,
+            string targetName,
+            string value)
+        {
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                return false;
+            }
+
+            int index = parameters.FindIndex(item => string.Equals(item.ParametersName, targetName, StringComparison.Ordinal));
+            if (index < 0)
+            {
+                return false;
+            }
+
+            MesPullInParameters parameter = parameters[index];
+            parameter.ParametersPrice = value.Trim();
+            parameters[index] = parameter;
+            return true;
+        }
+
+        private static string ToWsdlUrl(string url)
+        {
+            if (string.IsNullOrWhiteSpace(url) || url.IndexOf("?wsdl", StringComparison.OrdinalIgnoreCase) >= 0)
+            {
+                return url;
+            }
+
+            return url.TrimEnd('/') + "?wsdl";
+        }
+
+        private bool MigrateBomInventoryParameters()
+        {
+            bool migrated = false;
+            migrated |= SetMigratedParameter(ResourceHandler.listMesBomInventoryParameters, "enabled", ReadLegacyParameter("bomInventoryEnabled"));
+            migrated |= SetMigratedParameter(ResourceHandler.listMesBomInventoryParameters, "MES WSDL", ToWsdlUrl(ReadLegacyParameter("bomInventoryUrl")));
+            migrated |= SetMigratedParameter(ResourceHandler.listMesBomInventoryParameters, "TimeOut(ms)", ReadLegacyParameter("bomInventoryTimeout"));
+            migrated |= SetMigratedParameter(ResourceHandler.listMesBomInventoryParameters, "User", ReadLegacyParameter("bomInventoryUserName"));
+            migrated |= SetMigratedParameter(ResourceHandler.listMesBomInventoryParameters, "Password", ReadLegacyParameter("bomInventoryPassword"));
+            migrated |= SetMigratedParameter(ResourceHandler.listMesBomInventoryParameters, "site", ReadLegacyParameter("bomInventorySite"));
+            migrated |= SetMigratedParameter(ResourceHandler.listMesBomInventoryParameters, "user", ReadLegacyParameter("bomInventoryUser"));
+            migrated |= SetMigratedParameter(ResourceHandler.listMesBomInventoryParameters, "operation", ReadLegacyParameter("bomInventoryOperation"));
+            migrated |= SetMigratedParameter(ResourceHandler.listMesBomInventoryParameters, "operationRevision", ReadLegacyParameter("bomInventoryOperationRevision"));
+            migrated |= SetMigratedParameter(ResourceHandler.listMesBomInventoryParameters, "activity", ReadLegacyParameter("bomInventoryActivity"));
+            migrated |= SetMigratedParameter(ResourceHandler.listMesBomInventoryParameters, "Resource", ReadLegacyParameter("bomInventoryResource"));
+            migrated |= SetMigratedParameter(ResourceHandler.listMesBomInventoryParameters, "modeCheckOperation", ReadLegacyParameter("bomInventoryModeCheckOperation"));
+            migrated |= SetMigratedParameter(ResourceHandler.listMesBomInventoryParameters, "modeProcessSfc", ReadLegacyParameter("bomInventoryModeProcessSfc"));
+
+            string usage = string.Join(";", new[] { ReadLegacyParameter("bomInventoryUsage1"), ReadLegacyParameter("bomInventoryUsage2") }
+                .Where(value => !string.IsNullOrWhiteSpace(value)));
+            string category = string.Join(";", new[] { ReadLegacyParameter("bomInventoryCategory1"), ReadLegacyParameter("bomInventoryCategory2") }
+                .Where(value => !string.IsNullOrWhiteSpace(value)));
+            string dataField = string.Join(";", new[] { ReadLegacyParameter("bomInventoryDataField1"), ReadLegacyParameter("bomInventoryDataField2") }
+                .Where(value => !string.IsNullOrWhiteSpace(value)));
+            migrated |= SetMigratedParameter(ResourceHandler.listMesBomInventoryParameters, "usage", usage);
+            migrated |= SetMigratedParameter(ResourceHandler.listMesBomInventoryParameters, "category", category);
+            migrated |= SetMigratedParameter(ResourceHandler.listMesBomInventoryParameters, "dataField", dataField);
+            return migrated;
+        }
+
+        private bool MigrateAssembleMaterialParameters()
+        {
+            bool migrated = false;
+            migrated |= SetMigratedParameter(ResourceHandler.listMesAssembleMaterialParameters, "enabled", ReadLegacyParameter("assembleMaterialEnabled"));
+            migrated |= SetMigratedParameter(ResourceHandler.listMesAssembleMaterialParameters, "MES WSDL", ToWsdlUrl(ReadLegacyParameter("assembleMaterialUrl")));
+            migrated |= SetMigratedParameter(ResourceHandler.listMesAssembleMaterialParameters, "TimeOut(ms)", ReadLegacyParameter("assembleMaterialTimeout"));
+            migrated |= SetMigratedParameter(ResourceHandler.listMesAssembleMaterialParameters, "User", ReadLegacyParameter("assembleMaterialUserName"));
+            migrated |= SetMigratedParameter(ResourceHandler.listMesAssembleMaterialParameters, "Password", ReadLegacyParameter("assembleMaterialPassword"));
+            migrated |= SetMigratedParameter(ResourceHandler.listMesAssembleMaterialParameters, "site", ReadLegacyParameter("assembleMaterialSite"));
+            migrated |= SetMigratedParameter(ResourceHandler.listMesAssembleMaterialParameters, "user", ReadLegacyParameter("assembleMaterialUser"));
+            migrated |= SetMigratedParameter(ResourceHandler.listMesAssembleMaterialParameters, "operation", ReadLegacyParameter("assembleMaterialOperation"));
+            migrated |= SetMigratedParameter(ResourceHandler.listMesAssembleMaterialParameters, "operationRevision", ReadLegacyParameter("assembleMaterialOperationRevision"));
+            migrated |= SetMigratedParameter(ResourceHandler.listMesAssembleMaterialParameters, "activityId", ReadLegacyParameter("assembleMaterialActivityId"));
+            migrated |= SetMigratedParameter(ResourceHandler.listMesAssembleMaterialParameters, "Resource", ReadLegacyParameter("assembleMaterialResource"));
+            migrated |= SetMigratedParameter(ResourceHandler.listMesAssembleMaterialParameters, "dcGroup", ReadLegacyParameter("assembleMaterialDcGroup"));
+            migrated |= SetMigratedParameter(ResourceHandler.listMesAssembleMaterialParameters, "dcGroupRevision", ReadLegacyParameter("assembleMaterialDcGroupRevision"));
+            migrated |= SetMigratedParameter(ResourceHandler.listMesAssembleMaterialParameters, "modeProcessSfc", ReadLegacyParameter("assembleMaterialModeProcessSfc"));
+            migrated |= SetMigratedParameter(ResourceHandler.listMesAssembleMaterialParameters, "partialAssembly", ReadLegacyParameter("assembleMaterialPartialAssembly"));
+            migrated |= SetMigratedParameter(ResourceHandler.listMesAssembleMaterialParameters, "inventoryArray[]", ReadLegacyParameter("assembleMaterialInventoryArray"));
+            migrated |= SetMigratedParameter(ResourceHandler.listMesAssembleMaterialParameters, "parameterArray[]", ReadLegacyParameter("assembleMaterialParameterArray"));
+
+            string legacyNcArray = ReadLegacyParameter("assembleMaterialNcCodeArray");
+            if (!string.IsNullOrWhiteSpace(legacyNcArray))
+            {
+                List<string> ncCodes = new List<string>();
+                List<string> hasNcValues = new List<string>();
+                foreach (string item in legacyNcArray.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries))
+                {
+                    string[] parts = item.Split(new[] { '|' }, 2);
+                    if (parts.Length == 2)
+                    {
+                        ncCodes.Add(parts[0].Trim());
+                        hasNcValues.Add(parts[1].Trim());
+                    }
+                }
+                migrated |= SetMigratedParameter(ResourceHandler.listMesAssembleMaterialParameters, "ncCode", string.Join(";", ncCodes));
+                migrated |= SetMigratedParameter(ResourceHandler.listMesAssembleMaterialParameters, "hasNc", string.Join(";", hasNcValues));
+            }
+            return migrated;
+        }
+
+        private bool RemoveLegacyParameters(string prefix)
+        {
+            int removed = ResourceHandler.listMesPullInParameters.RemoveAll(item =>
+                !string.IsNullOrWhiteSpace(item.ParametersName) &&
+                item.ParametersName.StartsWith(prefix, StringComparison.OrdinalIgnoreCase));
+            return removed > 0;
+        }
+
+        public void MesBomInventoryParameter()
+        {
+            string path = "xml/" + workstationName.Text + "/MesCheckBOMInventory.xml";
+            bool fileExists = File.Exists(path);
+            XmlHelper xmlHelper = new XmlHelper(path);
+            bool loaded = xmlHelper.Read(ref ResourceHandler.listMesBomInventoryParameters);
+            if (!loaded)
+            {
+                ResourceHandler.listMesBomInventoryParameters.Clear();
+                if (fileExists)
+                {
+                    MessageBox.Show("贴纸PN及库存校验参数读取失败！");
+                }
+            }
+
+            bool hadIndependentParameters = ResourceHandler.listMesBomInventoryParameters.Count > 0;
+            EnsureBomInventoryParameters();
+            bool migrated = !hadIndependentParameters && MigrateBomInventoryParameters();
+            bool removedLegacy = RemoveLegacyParameters("bomInventory");
+            if ((!fileExists || (loaded && migrated)) && !xmlHelper.Write(ResourceHandler.listMesBomInventoryParameters))
+            {
+                MessageBox.Show("贴纸PN及库存校验参数保存失败！");
+            }
+            if (removedLegacy)
+            {
+                new XmlHelper("xml/" + workstationName.Text + "/MesPullIn.xml").Write(ResourceHandler.listMesPullInParameters);
+                RefreshMesPullInParameterGrid();
+            }
+
+            ResourceHandler.dparamParameters.mesBomInventoryUI = new MesPullInUI(
+                this,
+                ResourceHandler.listMesBomInventoryParameters,
+                "MesCheckBOMInventory.xml",
+                "贴纸PN及库存校验参数配置表.CSV",
+                "贴纸PN及库存校验配置",
+                EnsureBomInventoryParameters);
+        }
+
+        public void MesAssembleMaterialParameter()
+        {
+            string path = "xml/" + workstationName.Text + "/MesAssembleAndCollectDataForSfc.xml";
+            bool fileExists = File.Exists(path);
+            XmlHelper xmlHelper = new XmlHelper(path);
+            bool loaded = xmlHelper.Read(ref ResourceHandler.listMesAssembleMaterialParameters);
+            if (!loaded)
+            {
+                ResourceHandler.listMesAssembleMaterialParameters.Clear();
+                if (fileExists)
+                {
+                    MessageBox.Show("组装物料参数读取失败！");
+                }
+            }
+
+            bool hadIndependentParameters = ResourceHandler.listMesAssembleMaterialParameters.Count > 0;
+            EnsureAssembleMaterialParameters();
+            bool migrated = !hadIndependentParameters && MigrateAssembleMaterialParameters();
+            bool removedLegacy = RemoveLegacyParameters("assembleMaterial");
+            if ((!fileExists || (loaded && migrated)) && !xmlHelper.Write(ResourceHandler.listMesAssembleMaterialParameters))
+            {
+                MessageBox.Show("组装物料参数保存失败！");
+            }
+            if (removedLegacy)
+            {
+                new XmlHelper("xml/" + workstationName.Text + "/MesPullIn.xml").Write(ResourceHandler.listMesPullInParameters);
+                RefreshMesPullInParameterGrid();
+            }
+
+            ResourceHandler.dparamParameters.mesAssembleMaterialUI = new MesPullInUI(
+                this,
+                ResourceHandler.listMesAssembleMaterialParameters,
+                "MesAssembleAndCollectDataForSfc.xml",
+                "组装物料参数配置表.CSV",
+                "组装物料配置",
+                EnsureAssembleMaterialParameters);
         }
 
         public void EnsureBomInventoryParameters()
         {
-            MesPullInParameters[] defaults =
-            {
-                new MesPullInParameters { ParametersName = "bomInventoryEnabled", ParametersExplain = "启用贴纸PN及库存校验(true/false)", ParametersPrice = "true" },
-                new MesPullInParameters { ParametersName = "bomInventoryUrl", ParametersExplain = "贴纸PN及库存校验服务地址", ParametersPrice = "http://172.26.11.3:50200/atlmeswebservice/MiCheckBOMInventoryServiceService" },
-                new MesPullInParameters { ParametersName = "bomInventoryTimeout", ParametersExplain = "贴纸PN及库存校验超时(ms)", ParametersPrice = "10000" },
-                new MesPullInParameters { ParametersName = "bomInventoryUserName", ParametersExplain = "贴纸PN及库存校验HTTP用户名(为空则使用进站用户名)", ParametersPrice = "" },
-                new MesPullInParameters { ParametersName = "bomInventoryPassword", ParametersExplain = "贴纸PN及库存校验HTTP密码(为空则使用进站密码)", ParametersPrice = "" },
-                new MesPullInParameters { ParametersName = "bomInventorySite", ParametersExplain = "贴纸PN及库存校验站点(为空则使用进站site)", ParametersPrice = "" },
-                new MesPullInParameters { ParametersName = "bomInventoryUser", ParametersExplain = "贴纸PN及库存校验操作用户(为空则使用进站user)", ParametersPrice = "" },
-                new MesPullInParameters { ParametersName = "bomInventoryOperation", ParametersExplain = "贴纸PN及库存校验工位(为空则使用进站operation)", ParametersPrice = "" },
-                new MesPullInParameters { ParametersName = "bomInventoryOperationRevision", ParametersExplain = "贴纸PN及库存校验工位版本", ParametersPrice = "#" },
-                new MesPullInParameters { ParametersName = "bomInventoryActivity", ParametersExplain = "贴纸PN及库存校验活动", ParametersPrice = "EAP_WS" },
-                new MesPullInParameters { ParametersName = "bomInventoryResource", ParametersExplain = "贴纸PN及库存校验资源(为空则使用进站resource)", ParametersPrice = "" },
-                new MesPullInParameters { ParametersName = "bomInventoryModeCheckOperation", ParametersExplain = "贴纸PN及库存校验工位检查模式", ParametersPrice = "" },
-                new MesPullInParameters { ParametersName = "bomInventoryModeProcessSfc", ParametersExplain = "贴纸PN及库存校验过站模式", ParametersPrice = "MODE_COMPLETE_SFC_POST_DC" },
-                new MesPullInParameters { ParametersName = "bomInventoryUsage1", ParametersExplain = "贴纸PN校验参数1-usage", ParametersPrice = "RESOURCE" },
-                new MesPullInParameters { ParametersName = "bomInventoryCategory1", ParametersExplain = "贴纸PN校验参数1-category", ParametersPrice = "RESOURCE" },
-                new MesPullInParameters { ParametersName = "bomInventoryDataField1", ParametersExplain = "贴纸PN校验参数1-dataField", ParametersPrice = "Z_FMA_RES" },
-                new MesPullInParameters { ParametersName = "bomInventoryUsage2", ParametersExplain = "库存校验参数2-usage", ParametersPrice = "BOM" },
-                new MesPullInParameters { ParametersName = "bomInventoryCategory2", ParametersExplain = "库存校验参数2-category", ParametersPrice = "RESOURCE" },
-                new MesPullInParameters { ParametersName = "bomInventoryDataField2", ParametersExplain = "库存校验参数2-dataField", ParametersPrice = "Z_FMA_BOM" }
-            };
+            List<MesPullInParameters> parameters = ResourceHandler.listMesBomInventoryParameters;
+            AddInterfaceDefault(parameters, "enabled", "程序控制项：启用贴纸PN及库存校验(true/false)", "true");
+            AddInterfaceDefault(parameters, "MES WSDL", "WS服务器WSDL", "http://172.26.11.3:50200/atlmeswebservice/MiCheckBOMInventoryServiceService?wsdl");
+            AddInterfaceDefault(parameters, "TimeOut(ms)", "WS服务器连接超时设置，毫秒", "10000");
+            AddInterfaceDefault(parameters, "User", "连接服务器用户名", "");
+            AddInterfaceDefault(parameters, "Password", "连接服务器用户密码", "");
+            AddInterfaceDefault(parameters, "site", "设备所在的站点", "M002");
+            AddInterfaceDefault(parameters, "user", "操作用户", "");
+            AddInterfaceDefault(parameters, "operation", "工位", "");
+            AddInterfaceDefault(parameters, "operationRevision", "工位版本", "#");
+            AddInterfaceDefault(parameters, "activity", "活动", "EAP_WS");
+            AddInterfaceDefault(parameters, "Resource", "设备资源号", "");
+            AddInterfaceDefault(parameters, "modeCheckOperation", "工位检查模式", "");
+            AddInterfaceDefault(parameters, "modeProcessSfc", "过站模式", "MODE_COMPLETE_SFC_POST_DC");
+            AddInterfaceDefault(parameters, "usage", "parameterArray[]中的usage；多项用分号分隔", "RESOURCE;BOM");
+            AddInterfaceDefault(parameters, "category", "parameterArray[]中的category；多项用分号分隔", "RESOURCE;RESOURCE");
+            AddInterfaceDefault(parameters, "dataField", "parameterArray[]中的dataField；多项用分号分隔", "Z_FMA_RES;Z_FMA_BOM");
+            AddInterfaceDefault(parameters, "sfc", "SFC：模组号；{SFC}表示使用设备条码", "{SFC}");
+            AddInterfaceDefault(parameters, "parameterArray[]", "DC参数数组：usage|category|dataField；多项用分号分隔", "");
+        }
 
-            foreach (MesPullInParameters parameter in defaults)
-            {
-                if (!ResourceHandler.listMesPullInParameters.Any(item =>
-                    string.Equals(item.ParametersName, parameter.ParametersName, StringComparison.OrdinalIgnoreCase)))
-                {
-                    ResourceHandler.listMesPullInParameters.Add(parameter);
-                }
-            }
+        public void EnsureAssembleMaterialParameters()
+        {
+            List<MesPullInParameters> parameters = ResourceHandler.listMesAssembleMaterialParameters;
+            AddInterfaceDefault(parameters, "enabled", "程序控制项：启用组装物料(true/false)", "true");
+            AddInterfaceDefault(parameters, "MES WSDL", "WS服务器WSDL", "http://172.26.11.3:50200/atlmeswebservice/MiAssembleAndCollectDataForSfcServiceService?wsdl");
+            AddInterfaceDefault(parameters, "TimeOut(ms)", "WS服务器连接超时设置，毫秒", "10000");
+            AddInterfaceDefault(parameters, "User", "连接服务器用户名", "");
+            AddInterfaceDefault(parameters, "Password", "连接服务器用户密码", "");
+            AddInterfaceDefault(parameters, "site", "设备所在的站点", "M002");
+            AddInterfaceDefault(parameters, "user", "操作用户", "");
+            AddInterfaceDefault(parameters, "operation", "工位", "");
+            AddInterfaceDefault(parameters, "operationRevision", "工位版本", "#");
+            AddInterfaceDefault(parameters, "activityId", "活动", "EAP_WS");
+            AddInterfaceDefault(parameters, "Resource", "设备资源号", "");
+            AddInterfaceDefault(parameters, "dcGroup", "数据收集组", "*");
+            AddInterfaceDefault(parameters, "dcGroupRevision", "数据收集组版本", "#");
+            AddInterfaceDefault(parameters, "modeProcessSfc", "过站模式", "MODE_NONE");
+            AddInterfaceDefault(parameters, "partialAssembly", "是否部分组装(true/false)", "true");
+            AddInterfaceDefault(parameters, "sfc", "SFC：模组号；{SFC}表示使用设备条码", "{SFC}");
+            AddInterfaceDefault(parameters, "ncCode", "NC代码名称；多项用分号分隔", "");
+            AddInterfaceDefault(parameters, "hasNc", "是否NC；与ncCode逐项对应，多项用分号分隔", "false");
+            AddInterfaceDefault(parameters, "inventoryArray[]", "库存数组：库存号|数量|属性=值&属性=值；多项用分号分隔", "");
+            AddInterfaceDefault(parameters, "parameterArray[]", "DC参数数组：名称|类型|值；类型NUMBER/TEXT/FORMULA/BOOLEAN", "");
         }
 
         public void RefreshMesPullInParameterGrid()
@@ -499,20 +724,20 @@ namespace HJMSurrenSystem
                 return;
             }
 
-            DataGridViewClass.RemoveAllRow(pullInUi.dataGridView1);
-            foreach (MesPullInParameters item in ResourceHandler.listMesPullInParameters)
-            {
-                string[] values = { item.ParametersName, item.ParametersExplain, item.ParametersPrice };
-                DataGridViewClass.AddRows(pullInUi.dataGridView1, values, Color.White);
-            }
+            pullInUi.ReloadGrid();
         }
 
         private void EnsureManualUploadInterfaceTypes()
         {
             const string bomInventoryManualType = "手动贴纸PN/库存校验";
+            const string assembleMaterialManualType = "手动组装物料";
             if (!cmbInterfaceType.Items.Contains(bomInventoryManualType))
             {
                 cmbInterfaceType.Items.Add(bomInventoryManualType);
+            }
+            if (!cmbInterfaceType.Items.Contains(assembleMaterialManualType))
+            {
+                cmbInterfaceType.Items.Add(assembleMaterialManualType);
             }
         }
 
@@ -763,7 +988,7 @@ namespace HJMSurrenSystem
             JPIO_OPC.heartBeatCallBack = (JPIO_OPC.ThreadEvent)Delegate.Combine(JPIO_OPC.heartBeatCallBack, new JPIO_OPC.ThreadEvent(PLC_heartBeatEvent));
             switch (workstationName.Text)
             {
-                case "BSB焊接":
+                case "涂胶检查":
                     ResourceHandler.dparamParameters.flowClass = null;
                     ResourceHandler.dparamParameters.flowClass = new BSB焊接(this);
                     tabPage3.Parent = null;//隐藏侧板出站选项卡
@@ -1347,7 +1572,7 @@ namespace HJMSurrenSystem
 
         private void bSB焊接ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ResourceHandler.listSystemParameters[0].currentLocation = "BSB焊接";
+            ResourceHandler.listSystemParameters[0].currentLocation = "涂胶检查";
 
             保存ToolStripMenuItem_Click();
 
@@ -1462,11 +1687,14 @@ namespace HJMSurrenSystem
 
         private void 贴纸PN库存校验配置ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            using (MesPullInUI bomInventoryUi = new MesPullInUI(this, true))
-            {
-                bomInventoryUi.language();
-                bomInventoryUi.ShowDialog(this);
-            }
+            ResourceHandler.dparamParameters.mesBomInventoryUI.language();
+            ResourceHandler.dparamParameters.mesBomInventoryUI.ShowDialog(this);
+        }
+
+        private void 组装物料配置ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ResourceHandler.dparamParameters.mesAssembleMaterialUI.language();
+            ResourceHandler.dparamParameters.mesAssembleMaterialUI.ShowDialog(this);
         }
 
         private void 出站配置ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1649,6 +1877,16 @@ namespace HJMSurrenSystem
                         return;
                     }
                     MESoutDiary("手动贴纸PN及库存校验成功", "信息");
+                }
+                else if (cmbInterfaceType.Text.Equals("手动组装物料"))
+                {
+                    ResponseData responseData = ResourceHandler.dparamParameters.MesInteraction.AssembleMaterial(moduleCode, true);
+                    if (responseData.code != 0)
+                    {
+                        MESoutDiary($"Code:{responseData.code} \r\nMessage:{responseData.message}\r\n原因:{responseData.Message}\r\n解决办法:{responseData.way}\r\n处理人员:{responseData.personinCharge}\r\n组装物料失败", "警告");
+                        return;
+                    }
+                    MESoutDiary("手动组装物料成功", "信息");
                 }
                 else if (cmbInterfaceType.Text.Equals("手动出站"))
                 {
@@ -1843,6 +2081,7 @@ namespace HJMSurrenSystem
             焊中检测ToolStripMenuItem.Text = rs.GetString("焊中检测ToolStripMenuItem.Text");
             fTP参数设置ToolStripMenuItem.Text = rs.GetString("fTP参数设置ToolStripMenuItem.Text");
             焊后铣削ToolStripMenuItem.Text = rs.GetString("焊后铣削ToolStripMenuItem.Text");
+            ApplyHistoryPageLanguage();
         }
 
         private void Pole_Tx_KeyPress(object sender, KeyPressEventArgs e)

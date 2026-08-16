@@ -77,6 +77,11 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\Debug\MiFindCustomAndSfcDataServiceService.dll</HintPath>
     </Reference>
+    <Reference Include="MiAssembleAndCollectDataForSfcServiceService, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <Aliases>MiAssembleService</Aliases>
+      <HintPath>bin\Debug\MiAssembleAndCollectDataForSfcServiceService.dll</HintPath>
+    </Reference>
     <Reference Include="MiSFCAttriDataEntryServiceService, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\Debug\MiSFCAttriDataEntryServiceService.dll</HintPath>
@@ -96,6 +101,8 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.IO.Compression.FileSystem" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.Windows" />
     <Reference Include="System.Windows.Forms.DataVisualization" />
@@ -208,6 +215,12 @@
     <Compile Include="Parameters\ResourceHandler.cs" />
     <Compile Include="Parameters\SystemParameters.cs" />
     <Compile Include="FileDelete.cs" />
+    <Compile Include="History\HistoryDataRepository.cs" />
+    <Compile Include="History\HistoryExcelExporter.cs" />
+    <Compile Include="History\HistoryModels.cs" />
+    <Compile Include="Main.History.cs">
+      <DependentUpon>Main.cs</DependentUpon>
+    </Compile>
     <Compile Include="Main.cs">
       <SubType>Form</SubType>
     </Compile>

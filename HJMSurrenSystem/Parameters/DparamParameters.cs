@@ -71,6 +71,16 @@ namespace HJMSurrenSystem.Parameters
         public MesPullInUI mesPullInUI { get; set; }
 
         /// <summary>
+        /// MES贴纸PN及库存校验参数配置
+        /// </summary>
+        public MesPullInUI mesBomInventoryUI { get; set; }
+
+        /// <summary>
+        /// MES组装物料参数配置
+        /// </summary>
+        public MesPullInUI mesAssembleMaterialUI { get; set; }
+
+        /// <summary>
         /// MES出站参数配置
         /// </summary>
         public MesPullOutUI mesPullOutUI { get; set; }

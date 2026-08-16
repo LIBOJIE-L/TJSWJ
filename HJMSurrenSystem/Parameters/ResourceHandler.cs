@@ -29,6 +29,16 @@ namespace HJMSurrenSystem.Parameters
         public static List<MesPullInParameters> listMesPullInParameters = new List<MesPullInParameters>();
 
         /// <summary>
+        /// MES贴纸PN及库存校验配置参数
+        /// </summary>
+        public static List<MesPullInParameters> listMesBomInventoryParameters = new List<MesPullInParameters>();
+
+        /// <summary>
+        /// MES组装物料配置参数
+        /// </summary>
+        public static List<MesPullInParameters> listMesAssembleMaterialParameters = new List<MesPullInParameters>();
+
+        /// <summary>
         /// MES出站配置参数
         /// </summary>
         public static List<MesPullOutParameters> listMesPullOutParameters = new List<MesPullOutParameters>();

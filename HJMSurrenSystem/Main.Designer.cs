@@ -71,6 +71,7 @@
             this.修改数据ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.dataGridView4 = new System.Windows.Forms.DataGridView();
+            this.historyTabPage = new System.Windows.Forms.TabPage();
             this.Wdd_Tabpage = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.Wdd_SettingShow_Panel = new System.Windows.Forms.Panel();
@@ -123,6 +124,7 @@
             this.MES配置ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.进站配置ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.贴纸PN库存校验配置ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.组装物料配置ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.出站配置ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.首件配置ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.出站参数表ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -217,93 +219,49 @@
             // 
             // scanInfoLayout
             // 
-            this.scanInfoLayout.ColumnCount = 2;
-            this.scanInfoLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 38F));
-            this.scanInfoLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 62F));
+            resources.ApplyResources(this.scanInfoLayout, "scanInfoLayout");
             this.scanInfoLayout.Controls.Add(this.scanInputPanel, 0, 0);
             this.scanInfoLayout.Controls.Add(this.scanResultGrid, 1, 0);
-            this.scanInfoLayout.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.scanInfoLayout.Location = new System.Drawing.Point(3, 31);
             this.scanInfoLayout.Name = "scanInfoLayout";
-            this.scanInfoLayout.Padding = new System.Windows.Forms.Padding(8);
-            this.scanInfoLayout.RowCount = 1;
-            this.scanInfoLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.scanInfoLayout.Size = new System.Drawing.Size(1069, 249);
-            this.scanInfoLayout.TabIndex = 3;
             // 
             // scanInputPanel
             // 
             this.scanInputPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.scanInputPanel.Controls.Add(this.scanInputLayout);
-            this.scanInputPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.scanInputPanel.Location = new System.Drawing.Point(8, 8);
-            this.scanInputPanel.Margin = new System.Windows.Forms.Padding(0, 0, 8, 0);
+            resources.ApplyResources(this.scanInputPanel, "scanInputPanel");
             this.scanInputPanel.Name = "scanInputPanel";
-            this.scanInputPanel.Size = new System.Drawing.Size(392, 233);
-            this.scanInputPanel.TabIndex = 0;
             // 
             // scanInputLayout
             // 
-            this.scanInputLayout.ColumnCount = 2;
-            this.scanInputLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 125F));
-            this.scanInputLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            resources.ApplyResources(this.scanInputLayout, "scanInputLayout");
             this.scanInputLayout.Controls.Add(this.scanBarcodeLabel, 0, 0);
             this.scanInputLayout.Controls.Add(this.scanBarcodeTextBox, 1, 0);
             this.scanInputLayout.Controls.Add(this.scanBarcodeLengthLabel, 0, 1);
             this.scanInputLayout.Controls.Add(this.scanBarcodeLengthComboBox, 1, 1);
-            this.scanInputLayout.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.scanInputLayout.Location = new System.Drawing.Point(0, 0);
             this.scanInputLayout.Name = "scanInputLayout";
-            this.scanInputLayout.Padding = new System.Windows.Forms.Padding(18, 24, 18, 0);
-            this.scanInputLayout.RowCount = 3;
-            this.scanInputLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 70F));
-            this.scanInputLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 70F));
-            this.scanInputLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.scanInputLayout.Size = new System.Drawing.Size(390, 231);
-            this.scanInputLayout.TabIndex = 0;
             // 
             // scanBarcodeLabel
             // 
-            this.scanBarcodeLabel.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.scanBarcodeLabel.AutoSize = true;
-            this.scanBarcodeLabel.Location = new System.Drawing.Point(77, 47);
+            resources.ApplyResources(this.scanBarcodeLabel, "scanBarcodeLabel");
             this.scanBarcodeLabel.Name = "scanBarcodeLabel";
-            this.scanBarcodeLabel.Size = new System.Drawing.Size(63, 24);
-            this.scanBarcodeLabel.TabIndex = 0;
-            this.scanBarcodeLabel.Text = "条码：";
             // 
             // scanBarcodeTextBox
             // 
-            this.scanBarcodeTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.scanBarcodeTextBox.Location = new System.Drawing.Point(153, 42);
-            this.scanBarcodeTextBox.Margin = new System.Windows.Forms.Padding(10, 3, 10, 3);
+            resources.ApplyResources(this.scanBarcodeTextBox, "scanBarcodeTextBox");
             this.scanBarcodeTextBox.Name = "scanBarcodeTextBox";
-            this.scanBarcodeTextBox.Size = new System.Drawing.Size(209, 35);
-            this.scanBarcodeTextBox.TabIndex = 1;
             this.scanBarcodeTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.scanBarcodeTextBox_KeyDown);
             // 
             // scanBarcodeLengthLabel
             // 
-            this.scanBarcodeLengthLabel.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.scanBarcodeLengthLabel.AutoSize = true;
-            this.scanBarcodeLengthLabel.Location = new System.Drawing.Point(34, 117);
+            resources.ApplyResources(this.scanBarcodeLengthLabel, "scanBarcodeLengthLabel");
             this.scanBarcodeLengthLabel.Name = "scanBarcodeLengthLabel";
-            this.scanBarcodeLengthLabel.Size = new System.Drawing.Size(105, 24);
-            this.scanBarcodeLengthLabel.TabIndex = 2;
-            this.scanBarcodeLengthLabel.Text = "条码长度：";
             // 
             // scanBarcodeLengthComboBox
             // 
-            this.scanBarcodeLengthComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            resources.ApplyResources(this.scanBarcodeLengthComboBox, "scanBarcodeLengthComboBox");
             this.scanBarcodeLengthComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.scanBarcodeLengthComboBox.FormattingEnabled = true;
-            this.scanBarcodeLengthComboBox.IntegralHeight = false;
-            this.scanBarcodeLengthComboBox.Location = new System.Drawing.Point(153, 108);
-            this.scanBarcodeLengthComboBox.Margin = new System.Windows.Forms.Padding(10, 3, 10, 3);
-            this.scanBarcodeLengthComboBox.MaxDropDownItems = 12;
             this.scanBarcodeLengthComboBox.Name = "scanBarcodeLengthComboBox";
-            this.scanBarcodeLengthComboBox.Size = new System.Drawing.Size(209, 43);
-            this.scanBarcodeLengthComboBox.TabIndex = 3;
             this.scanBarcodeLengthComboBox.SelectionChangeCommitted += new System.EventHandler(this.scanBarcodeLengthComboBox_SelectionChangeCommitted);
             // 
             // scanResultGrid
@@ -313,30 +271,25 @@
             this.scanResultGrid.AllowUserToResizeRows = false;
             this.scanResultGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.scanResultGrid.BackgroundColor = System.Drawing.Color.White;
-            this.scanResultGrid.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.scanResultGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.scanResultGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.scanSequenceColumn,
             this.scanBarcodeColumn,
             this.scanResultColumn,
             this.scanTimeColumn});
-            this.scanResultGrid.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.scanResultGrid.Location = new System.Drawing.Point(416, 8);
-            this.scanResultGrid.Margin = new System.Windows.Forms.Padding(8, 0, 0, 0);
+            resources.ApplyResources(this.scanResultGrid, "scanResultGrid");
             this.scanResultGrid.MultiSelect = false;
             this.scanResultGrid.Name = "scanResultGrid";
             this.scanResultGrid.ReadOnly = true;
             this.scanResultGrid.RowHeadersVisible = false;
             this.scanResultGrid.RowTemplate.Height = 30;
             this.scanResultGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.scanResultGrid.Size = new System.Drawing.Size(645, 233);
-            this.scanResultGrid.TabIndex = 1;
             this.scanResultGrid.TabStop = false;
             // 
             // scanSequenceColumn
             // 
             this.scanSequenceColumn.FillWeight = 12F;
-            this.scanSequenceColumn.HeaderText = "序号";
+            resources.ApplyResources(this.scanSequenceColumn, "scanSequenceColumn");
             this.scanSequenceColumn.Name = "scanSequenceColumn";
             this.scanSequenceColumn.ReadOnly = true;
             this.scanSequenceColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
@@ -344,7 +297,7 @@
             // scanBarcodeColumn
             // 
             this.scanBarcodeColumn.FillWeight = 43F;
-            this.scanBarcodeColumn.HeaderText = "条码";
+            resources.ApplyResources(this.scanBarcodeColumn, "scanBarcodeColumn");
             this.scanBarcodeColumn.Name = "scanBarcodeColumn";
             this.scanBarcodeColumn.ReadOnly = true;
             this.scanBarcodeColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
@@ -352,7 +305,7 @@
             // scanResultColumn
             // 
             this.scanResultColumn.FillWeight = 15F;
-            this.scanResultColumn.HeaderText = "结果";
+            resources.ApplyResources(this.scanResultColumn, "scanResultColumn");
             this.scanResultColumn.Name = "scanResultColumn";
             this.scanResultColumn.ReadOnly = true;
             this.scanResultColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
@@ -360,7 +313,7 @@
             // scanTimeColumn
             // 
             this.scanTimeColumn.FillWeight = 30F;
-            this.scanTimeColumn.HeaderText = "时间";
+            resources.ApplyResources(this.scanTimeColumn, "scanTimeColumn");
             this.scanTimeColumn.Name = "scanTimeColumn";
             this.scanTimeColumn.ReadOnly = true;
             this.scanTimeColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
@@ -400,6 +353,7 @@
             this.tabControl2.Controls.Add(this.tabPage4);
             this.tabControl2.Controls.Add(this.tabPage6);
             this.tabControl2.Controls.Add(this.tabPage3);
+            this.tabControl2.Controls.Add(this.historyTabPage);
             resources.ApplyResources(this.tabControl2, "tabControl2");
             this.tabControl2.Name = "tabControl2";
             this.tabControl2.SelectedIndex = 0;
@@ -554,6 +508,12 @@
             this.dataGridView4.GridColor = System.Drawing.SystemColors.ControlDarkDark;
             this.dataGridView4.Name = "dataGridView4";
             this.dataGridView4.RowTemplate.Height = 23;
+            // 
+            // historyTabPage
+            // 
+            resources.ApplyResources(this.historyTabPage, "historyTabPage");
+            this.historyTabPage.Name = "historyTabPage";
+            this.historyTabPage.UseVisualStyleBackColor = true;
             // 
             // Wdd_Tabpage
             // 
@@ -915,6 +875,7 @@
             this.MES配置ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.进站配置ToolStripMenuItem,
             this.贴纸PN库存校验配置ToolStripMenuItem,
+            this.组装物料配置ToolStripMenuItem,
             this.出站配置ToolStripMenuItem,
             this.首件配置ToolStripMenuItem,
             this.出站参数表ToolStripMenuItem,
@@ -928,13 +889,18 @@
             this.进站配置ToolStripMenuItem.Name = "进站配置ToolStripMenuItem";
             resources.ApplyResources(this.进站配置ToolStripMenuItem, "进站配置ToolStripMenuItem");
             this.进站配置ToolStripMenuItem.Click += new System.EventHandler(this.进站配置ToolStripMenuItem_Click);
-            //
+            // 
             // 贴纸PN库存校验配置ToolStripMenuItem
-            //
+            // 
             this.贴纸PN库存校验配置ToolStripMenuItem.Name = "贴纸PN库存校验配置ToolStripMenuItem";
-            this.贴纸PN库存校验配置ToolStripMenuItem.Size = new System.Drawing.Size(339, 44);
-            this.贴纸PN库存校验配置ToolStripMenuItem.Text = "贴纸PN及库存校验配置";
+            resources.ApplyResources(this.贴纸PN库存校验配置ToolStripMenuItem, "贴纸PN库存校验配置ToolStripMenuItem");
             this.贴纸PN库存校验配置ToolStripMenuItem.Click += new System.EventHandler(this.贴纸PN库存校验配置ToolStripMenuItem_Click);
+            // 
+            // 组装物料配置ToolStripMenuItem
+            // 
+            this.组装物料配置ToolStripMenuItem.Name = "组装物料配置ToolStripMenuItem";
+            resources.ApplyResources(this.组装物料配置ToolStripMenuItem, "组装物料配置ToolStripMenuItem");
+            this.组装物料配置ToolStripMenuItem.Click += new System.EventHandler(this.组装物料配置ToolStripMenuItem_Click);
             // 
             // 出站配置ToolStripMenuItem
             // 
@@ -1109,13 +1075,13 @@
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.scanResultGrid)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.scanInfoLayout.ResumeLayout(false);
             this.scanInputPanel.ResumeLayout(false);
             this.scanInputLayout.ResumeLayout(false);
             this.scanInputLayout.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.scanResultGrid)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
             this.tabControl2.ResumeLayout(false);
@@ -1181,6 +1147,7 @@
         private System.Windows.Forms.ToolStripMenuItem MES配置ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 进站配置ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 贴纸PN库存校验配置ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 组装物料配置ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 出站配置ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 首件配置ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 出站参数表ToolStripMenuItem;
@@ -1228,6 +1195,7 @@
         private System.Windows.Forms.ToolStripMenuItem 电芯校验配置ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 侧板出站上传参数ToolStripMenuItem;
         private System.Windows.Forms.TabPage tabPage3;
+        private System.Windows.Forms.TabPage historyTabPage;
         public System.Windows.Forms.DataGridView dataGridView4;
         private System.Windows.Forms.ToolStripMenuItem 水冷板焊接ToolStripMenuItem;
         private System.Windows.Forms.TabPage Wdd_Tabpage;

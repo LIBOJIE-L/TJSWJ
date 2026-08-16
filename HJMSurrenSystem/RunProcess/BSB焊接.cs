@@ -142,6 +142,14 @@ namespace HJMSurrenSystem.RunProcess
                     responseData = bomInventoryResult;
                 }
             }
+            if (responseData.code == 0)
+            {
+                ResponseData assembleMaterialResult = ResourceHandler.dparamParameters.MesInteraction.AssembleMaterial(moduleCode);
+                if (assembleMaterialResult.code != 0)
+                {
+                    responseData = assembleMaterialResult;
+                }
+            }
             if (responseData.code != 0)
             {
                 main.Invoke(new MethodInvoker(delegate
