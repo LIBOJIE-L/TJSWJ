@@ -1,4 +1,4 @@
-﻿namespace HJMSurrenSystem.ShowUI
+﻿namespace BJTSurrenSystem.ShowUI
 {
     partial class User_UI
     {
