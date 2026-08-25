@@ -14,7 +14,7 @@ using System.Windows.Forms;
 using UserManagement;
 using UserManagement.userLogIn;
 
-namespace HJMSurrenSystem.ShowUI
+namespace BJTSurrenSystem.ShowUI
 {
     public partial class User_UI : Form
     {
